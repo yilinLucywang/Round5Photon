@@ -221,7 +221,8 @@ public class QuickStartRoomController : MonoBehaviourPunCallbacks, IInRoomCallba
 		Debug.Log("I am here!");
 		currentScene = scene.buildIndex; 
 		if(currentScene == MultiplayerSettings.multiplayerSettings.multiplayerScene){
-			isGameLoaded = true; 
+			isGameLoaded = true;
+			PhotonNetwork.AutomaticallySyncScene = false; 
 			PV.RPC("RPC_LoadedGameScene", RpcTarget.MasterClient);
 			//Debug.Log("I am here!");
 			//PV.RPC("RPC_CreatePlayer", RpcTarget.All);
