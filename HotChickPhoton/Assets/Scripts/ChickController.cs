@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Photon.Pun;
 
 public class ChickController : MonoBehaviour
 {
@@ -8,13 +9,15 @@ public class ChickController : MonoBehaviour
     GameObject fireObject;
 
     public bool onFire = true;
+    public PhotonView PV;
+    int pvID;
 
     bool claimedChick = false;
     GameObject[] otherChicks;
     GameObject myChickParent;
-    GameObject myChickObject;
+    public static GameObject myChickObject;
     Camera myCamera;
-    Rigidbody rb;
+    public static Rigidbody rb;
 
     public float moveSpeed = 1;
     public float rotationSpeed = 1;
@@ -43,10 +46,9 @@ public class ChickController : MonoBehaviour
 
 
 
-        myChickObject.transform.RotateAround(myChickObject.transform.position, myChickObject.transform.up, Input.GetAxis("Mouse X") * rotationSpeed);
-
-        rb.velocity = myChickObject.transform.forward * moveSpeed;
-
+        //myChickObject.transform.RotateAround(myChickObject.transform.position, myChickObject.transform.up, Input.GetAxis("Mouse X") * rotationSpeed);
+        //rb.velocity = myChickObject.transform.forward * moveSpeed;
+        PlayerOne.updateChicken(PlayerOne.activePlayerIdx, myChickObject.transform.position, myChickObject.transform.up, Input.GetAxis("Mouse X") * rotationSpeed);
 
 
 
@@ -91,8 +93,10 @@ public class ChickController : MonoBehaviour
             myChickParent.transform.parent = this.transform;
         }
 
-
-
     }
 
+    public void moveChick(int source, Vector3 locationParam, Vector3 directionParam, float angle){
+        myChickObject.transform.RotateAround(locationParam, directionParam, angle);
+        rb.velocity = myChickObject.transform.forward * moveSpeed;
+    }
 }

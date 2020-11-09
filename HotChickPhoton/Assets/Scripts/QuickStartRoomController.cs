@@ -263,12 +263,14 @@ public class QuickStartRoomController : MonoBehaviourPunCallbacks, IInRoomCallba
         {
 			Debug.Log("You are the imposter!");
 			//GameState.imposter = true;
+			PlayerOne.isFarmer = true;
 			PlayerOne.SetText(false);
         }
 		else
         {
 			Debug.Log("You are good people");
 			//GameState.imposter = false;
+			PlayerOne.isFarmer = false;
 			PlayerOne.SetText(true);
         }
 	}

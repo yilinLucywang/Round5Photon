@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Photon.Pun;
 
 public class FarmerController : MonoBehaviour
 {
@@ -10,10 +11,13 @@ public class FarmerController : MonoBehaviour
     GameObject[] allChicks;
 
     GameObject myFarmerParent;
-    GameObject myFarmerObject;
+    public static GameObject myFarmerObject;
     Camera myCamera;
     GameObject waterCollider;
-    Rigidbody rb;
+    public static Rigidbody rb;
+    public PhotonView PV;
+    int pvID;
+
 
     public float moveSpeed = 1;
     public float rotationSpeed = 1;
@@ -42,9 +46,10 @@ public class FarmerController : MonoBehaviour
 
 
 
-        myFarmerObject.transform.RotateAround(myFarmerObject.transform.position, myFarmerObject.transform.up, Input.GetAxis("Mouse X") * rotationSpeed);
+        // myFarmerObject.transform.RotateAround(myFarmerObject.transform.position, myFarmerObject.transform.up, Input.GetAxis("Mouse X") * rotationSpeed);
+        // rb.velocity = myFarmerObject.transform.forward * moveSpeed;
+        PlayerOne.updateFarmer(PlayerOne.activePlayerIdx, myFarmerObject.transform.position, myFarmerObject.transform.up, Input.GetAxis("Mouse X") * rotationSpeed);
 
-        rb.velocity = myFarmerObject.transform.forward * moveSpeed;
 
         if (hasWater && Input.GetAxis("Fire1") > 0) 
         {
@@ -105,5 +110,11 @@ public class FarmerController : MonoBehaviour
         waterCollider.SetActive(false);
 
     }
+
+    public void moveFarmer(int source, Vector3 locationParam, Vector3 directionParam, float angle){
+        myFarmerObject.transform.RotateAround(locationParam, directionParam, angle);
+        rb.velocity = myFarmerObject.transform.forward * moveSpeed;
+    }
+
 
 }
