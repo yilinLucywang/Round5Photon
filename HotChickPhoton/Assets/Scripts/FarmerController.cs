@@ -39,7 +39,7 @@ public class FarmerController : MonoBehaviour
     void Start()
     {
         photonView = GameObject.Find("QuickStartRoomController").GetComponent<PhotonView>();
-
+        AudioController.AC.PlayBgm("bgm");
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
     }
