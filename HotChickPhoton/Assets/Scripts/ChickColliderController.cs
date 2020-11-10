@@ -1,16 +1,31 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Photon.Pun;
 
 public class ChickColliderController : MonoBehaviour
 {
-    private void OnTriggerEnter(Collider other)
+    PhotonView photonView;
+
+    private void Start()
     {
-        if (other.tag == "ChickCollider") 
+        photonView = GameObject.Find("QuickStartRoomController").GetComponent<PhotonView>();
+    }
+
+    private void OnTriggerStay(Collider other)
+    {
+        if (other.tag == "ChickCollider")
         {
-            if (other.transform.parent.parent.GetComponent<ChickController>().onFire) 
+            bool onFire = transform.GetChild(1).gameObject.activeInHierarchy;
+            bool otherOnFire = other.transform.parent.gameObject.activeInHierarchy;
+
+            if (onFire && !otherOnFire)
             {
-                transform.parent.parent.GetComponent<ChickController>().onFire = true;
+                photonView.RPC("LightChick", RpcTarget.All, other.transform.parent.gameObject.name);
+            }
+            else if (otherOnFire && !onFire)
+            {
+                photonView.RPC("LightChick", RpcTarget.All, transform.parent.gameObject.name);
             }
         }
     }

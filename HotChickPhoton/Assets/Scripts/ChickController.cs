@@ -1,31 +1,48 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System;
 using UnityEngine;
 using Photon.Pun;
+using System.Linq;
 
 public class ChickController : MonoBehaviour
 {
-    [SerializeField]
+    class ChickCompare : IComparer
+    {
+        int IComparer.Compare(object x, object y)
+        {
+            return string.Compare(((GameObject)x).name, ((GameObject)y).name);
+        }
+    }
+
+
     GameObject fireObject;
 
-    public bool onFire = true;
-    public PhotonView PV;
+    public bool onFire;
+    public PhotonView photonView;
     int pvID;
 
     bool claimedChick = false;
-    GameObject[] otherChicks;
+    GameObject[] allChicks;
+    GameObject[] allChickObjects;
     GameObject myChickParent;
+    int myChickIndex = -1;
     public static GameObject myChickObject;
     Camera myCamera;
     public static Rigidbody rb;
 
-    public float moveSpeed = 1;
-    public float rotationSpeed = 1;
+    GameObject farmerObject;
+
+    public float moveSpeed = 4;
+    public float rotationSpeed = 1.2f;
+
+    int frameCounter = 0;
 
 
     // Start is called before the first frame update
     void Start()
     {
+        photonView = GameObject.Find("QuickStartRoomController").GetComponent<PhotonView>();
 
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
@@ -34,49 +51,59 @@ public class ChickController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+
         if (!claimedChick) 
         {
             ClaimChick();
         }
 
-        if (myChickParent == null) 
+
+
+
+        MoveChick();
+
+
+
+
+
+        frameCounter++;
+        if (frameCounter == 6)
         {
-            return;
+            Debug.Log("Sending Chick Movement");
+            SendChickMovement();
+            frameCounter = 0;
         }
 
 
-
-        //myChickObject.transform.RotateAround(myChickObject.transform.position, myChickObject.transform.up, Input.GetAxis("Mouse X") * rotationSpeed);
-        //rb.velocity = myChickObject.transform.forward * moveSpeed;
-        PlayerOne.updateChicken(PlayerOne.activePlayerIdx, myChickObject.transform.position, myChickObject.transform.up, Input.GetAxis("Mouse X") * rotationSpeed);
-
-
-
-        if (onFire)
+        if (fireObject.activeInHierarchy)
         {
-            fireObject.SetActive(true);
+            onFire = true;
         }
         else
         {
-            fireObject.SetActive(false);
+            onFire = false;
         }
-
 
     }
 
     void ClaimChick() 
     {
-        otherChicks = GameObject.FindGameObjectsWithTag("Chick");
+        allChicks = GameObject.FindGameObjectsWithTag("Chick");
+        Array.Sort(allChicks, new ChickCompare());
+        allChickObjects = allChicks.Select(chickParent => chickParent.transform.GetChild(0).gameObject).ToArray();
 
-        if (otherChicks.Length == 0) 
+        if (allChicks.Length == 0) 
         {
             return;
         }
 
+        farmerObject = GameObject.FindGameObjectWithTag("Farmer").transform.GetChild(0).gameObject;
+        farmerObject.GetComponent<BoxCollider>().enabled = false;
+        farmerObject.GetComponent<Rigidbody>().useGravity = false;
 
         ChickStorage chickStorage = GameObject.Find("ChickStorage").GetComponent<ChickStorage>();
 
-        myChickParent = chickStorage.ClaimChick();
+        myChickParent = chickStorage.ClaimChick(out myChickIndex);
 
         if (myChickParent != null) 
         {
@@ -85,6 +112,15 @@ public class ChickController : MonoBehaviour
             myChickObject = myChickParent.transform.GetChild(0).gameObject;
             myCamera = myChickObject.transform.GetChild(0).GetComponent<Camera>();
             fireObject = myChickObject.transform.GetChild(1).gameObject;
+
+            if (fireObject.activeInHierarchy)
+            {
+                onFire = true;
+            }
+            else 
+            {
+                onFire = false;
+            }
 
             rb = myChickObject.GetComponent<Rigidbody>();
 
@@ -95,8 +131,87 @@ public class ChickController : MonoBehaviour
 
     }
 
-    public void moveChick(int source, Vector3 locationParam, Vector3 directionParam, float angle){
-        myChickObject.transform.RotateAround(locationParam, directionParam, angle);
+    void MoveChick()
+    {
+        myChickObject.transform.RotateAround(myChickObject.transform.position, myChickObject.transform.up, Input.GetAxis("Mouse X") * rotationSpeed);
         rb.velocity = myChickObject.transform.forward * moveSpeed;
     }
+
+    public void SendChickMovement() 
+    {
+        photonView.RPC("UpdateChick", RpcTarget.Others, myChickParent.name, myChickObject.transform.position, myChickObject.transform.rotation);
+    }
+
+
+    [PunRPC]
+    public void UpdateChick(string chickName, Vector3 chickPosition, Quaternion chickRotation)
+    {
+        StartCoroutine(UpdateChickLerp(chickName, chickPosition, chickRotation));
+    }
+
+    IEnumerator UpdateChickLerp(string chickName, Vector3 chickPosition, Quaternion chickRotation)
+    {
+        int chickIndex = allChicks.Select((chick, index) => chick.name == chickName ? index : -1).Where(index => index != -1).ToArray()[0];
+
+        Vector3 startingPosition = allChickObjects[chickIndex].transform.position;
+        Quaternion startingRotation = allChickObjects[chickIndex].transform.rotation;
+
+
+        int framesInBetweenMessages = 6;
+        for (int frameNum = 1; frameNum <= framesInBetweenMessages; frameNum++)
+        {
+            float frameLerpPhase = (float)frameNum / (float)framesInBetweenMessages;
+
+            allChickObjects[chickIndex].transform.position = Vector3.Lerp(startingPosition, chickPosition, frameLerpPhase);
+            allChickObjects[chickIndex].transform.rotation = Quaternion.Lerp(startingRotation, chickRotation, frameLerpPhase);
+
+            // Wait one frame.
+            yield return new WaitForSeconds(0.0166f);
+        }
+
+    }
+
+    [PunRPC]
+    public void UpdateFarmer(Vector3 chickPosition, Quaternion chickRotation)
+    {
+        StartCoroutine(UpdateFarmerLerp(chickPosition, chickRotation));
+    }
+
+    IEnumerator UpdateFarmerLerp(Vector3 farmerPosition, Quaternion farmerRotation)
+    {
+        Vector3 startingPosition = farmerObject.transform.position;
+        Quaternion startingRotation = farmerObject.transform.rotation;
+
+
+        int framesInBetweenMessages = 6;
+        for (int frameNum = 1; frameNum <= framesInBetweenMessages; frameNum++)
+        {
+            float frameLerpPhase = (float)frameNum / (float)framesInBetweenMessages;
+
+            farmerObject.transform.position = Vector3.Lerp(startingPosition, farmerPosition, frameLerpPhase);
+            farmerObject.transform.rotation = Quaternion.Lerp(startingRotation, farmerRotation, frameLerpPhase);
+
+            // Wait one frame.
+            yield return new WaitForSeconds(0.0166f);
+        }
+
+    }
+
+    [PunRPC]
+    public void PutOutChick(string remoteChick)
+    {
+        GameObject localChick = allChicks.Where(chick => chick.name == remoteChick).ToArray()[0];
+
+        localChick.transform.GetChild(0).GetChild(1).gameObject.SetActive(false);
+    }
+
+    [PunRPC]
+    public void LightChick(string remoteChick)
+    {
+        GameObject localChick = allChicks.Where(chick => chick.name == remoteChick).ToArray()[0];
+
+        localChick.transform.GetChild(0).GetChild(1).gameObject.SetActive(true);
+    }
+
+
 }

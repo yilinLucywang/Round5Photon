@@ -42,6 +42,12 @@ MonoBehaviour:
   - RPC_CreatePlayer
   - RPC_LoadedGameScene
   - RPC_UpdatePlayerCount
+  - RPC_UpdateChick
+  - RPC_UpdateFarmer
+  - UpdateChick
+  - UpdateFarmer
+  - LightChick
+  - PutOutChick
   DisableAutoOpenWizard: 1
   ShowSettings: 0
   DevRegionSetOnce: 1

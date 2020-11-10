@@ -93,7 +93,7 @@ public class QuickStartRoomController : MonoBehaviourPunCallbacks, IInRoomCallba
 		playersInRoom = photonPlayers.Length; 
 		myNumberInRoom = playersInRoom;
 		//TODO: change back later
-		PlayerOne.activePlayerIdx = myNumberInRoom-1;
+		//PlayerOne.activePlayerIdx = myNumberInRoom-1;
 		setUserName();
 		//PhotonNetwork.NickName = myNumberInRoom.ToString();
 		GameObject.Find("PhotonText").GetComponent<Text>().text = playersInRoom.ToString() + " / " + MultiplayerSettings.multiplayerSettings.maxPlayers.ToString();
@@ -139,7 +139,7 @@ public class QuickStartRoomController : MonoBehaviourPunCallbacks, IInRoomCallba
 		readyToCount = false; 
 		readyToStart = false; 
 		lessThanMaxPlayers = startingTime; 
-		atMaxPlayer = 10; 
+		atMaxPlayer = 3; 
 		timeToStart = startingTime; 
 	}
 
@@ -186,6 +186,12 @@ public class QuickStartRoomController : MonoBehaviourPunCallbacks, IInRoomCallba
 				StartGame();
 			}
 		}
+
+
+		if (Input.GetKeyDown("Escape")) 
+		{
+			Application.Quit();
+		}
 	}
 
 	public void EnterUserName(){
@@ -198,14 +204,26 @@ public class QuickStartRoomController : MonoBehaviourPunCallbacks, IInRoomCallba
 		isGameLoaded = true;
 		//setUserName();
 		Debug.Log(PhotonNetwork.IsMasterClient);
-		if(!PhotonNetwork.IsMasterClient){
-			return; 
+		PhotonNetwork.CurrentRoom.IsOpen = false;
+
+
+		if (PhotonNetwork.IsMasterClient)
+		{
+			// I am the farmer.
+
+			//SceneManager.LoadScene("FarmerScene");
+			gameObject.AddComponent<FarmerController>();
 		}
-		PhotonNetwork.CurrentRoom.IsOpen = false; 
-		//lobbyText.text = " ";
-		PV.RPC("RPC_ClearScreen", RpcTarget.All);
-		//quickStartButton.SetActive(false);
-		//quickCancelButton.SetActive(false);
+		else
+		{
+			// I am a chick.
+			//SceneManager.LoadScene("ChickScene");
+			gameObject.AddComponent<ChickController>();
+		}
+
+		SceneManager.LoadScene("BarnScene");
+
+		//PV.RPC("RPC_ClearScreen", RpcTarget.All);
 	}
 
 	void RestartTimer(){
@@ -259,19 +277,19 @@ public class QuickStartRoomController : MonoBehaviourPunCallbacks, IInRoomCallba
 	[PunRPC]
 	private void RPC_CreatePlayer( int imposter ){
 		//TODO: Change back here later
-		if( imposter == PlayerOne.activePlayerIdx )
+		/*if( imposter == PlayerOne.activePlayerIdx )
         {
 			Debug.Log("You are the imposter!");
 			//GameState.imposter = true;
-			PlayerOne.isFarmer = true;
-			PlayerOne.SetText(false);
+			//PlayerOne.isFarmer = true;
+			//PlayerOne.SetText(false);
         }
 		else
         {
 			Debug.Log("You are good people");
 			//GameState.imposter = false;
-			PlayerOne.isFarmer = false;
-			PlayerOne.SetText(true);
-        }
+			//PlayerOne.isFarmer = false;
+			//PlayerOne.SetText(true);
+        }*/
 	}
 }

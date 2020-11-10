@@ -750,7 +750,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c62a2e1a6506a4d0da30fa200f13922a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxPlayers: 2
+  maxPlayers: 4
   menuScene: 0
   multiplayerScene: 1
 --- !u!4 &718700064
