@@ -1,5 +1,5 @@
 sceneSetups:
-- path: Assets/Scenes/BarnScene.unity
+- path: Assets/Scenes/PhotonTest.unity
   isLoaded: 1
   isActive: 1
   isSubScene: 0
