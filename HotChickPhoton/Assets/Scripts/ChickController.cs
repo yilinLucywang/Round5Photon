@@ -44,7 +44,6 @@ public class ChickController : MonoBehaviour
     void Start()
     {
         photonView = GameObject.Find("QuickStartRoomController").GetComponent<PhotonView>();
-
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
     }

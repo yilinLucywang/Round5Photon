@@ -750,7 +750,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c62a2e1a6506a4d0da30fa200f13922a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxPlayers: 4
+  maxPlayers: 1
   menuScene: 0
   multiplayerScene: 1
 --- !u!4 &718700064
@@ -1525,7 +1525,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   quickStartButton: {fileID: 461243571}
   quickCancelButton: {fileID: 51961485}
-  RoomSize: 4
+  RoomSize: 1
   userNameBox: {fileID: 757311573}
 --- !u!4 &1197385846
 Transform:
