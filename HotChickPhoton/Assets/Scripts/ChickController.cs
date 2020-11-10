@@ -21,6 +21,7 @@ public class ChickController : MonoBehaviour
     public bool onFire;
     public PhotonView photonView;
     int pvID;
+    public int myChickNumber = -1;
 
     bool claimedChick = false;
     GameObject[] allChicks;
@@ -103,7 +104,7 @@ public class ChickController : MonoBehaviour
 
         ChickStorage chickStorage = GameObject.Find("ChickStorage").GetComponent<ChickStorage>();
 
-        myChickParent = chickStorage.ClaimChick(out myChickIndex);
+        myChickParent = chickStorage.ClaimChick(out myChickIndex, allChicks[myChickNumber].name);
 
         if (myChickParent != null) 
         {

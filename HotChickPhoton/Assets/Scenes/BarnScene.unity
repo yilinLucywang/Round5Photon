@@ -261,10 +261,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: ChickParent (2)
       objectReference: {fileID: 0}
-    - target: {fileID: 2749312772194049132, guid: e60019db20bc14b4bbe1538db6b273ca, type: 3}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e60019db20bc14b4bbe1538db6b273ca, type: 3}
 --- !u!4 &273849879 stripped
@@ -1260,6 +1256,7 @@ GameObject:
   - component: {fileID: 1946355915}
   - component: {fileID: 1946355917}
   - component: {fileID: 1946355916}
+  - component: {fileID: 1946355918}
   m_Layer: 0
   m_Name: Farmer
   m_TagString: Untagged
@@ -1293,7 +1290,7 @@ BoxCollider:
   m_GameObject: {fileID: 1946355914}
   m_Material: {fileID: 0}
   m_IsTrigger: 0
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 2
   m_Size: {x: 0.66, y: 2.45, z: 0.6}
   m_Center: {x: 0, y: 1.21, z: 0.13}
@@ -1313,6 +1310,20 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 80
   m_CollisionDetection: 0
+--- !u!136 &1946355918
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1946355914}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  m_Radius: 0.5
+  m_Height: 2.45
+  m_Direction: 1
+  m_Center: {x: 0, y: 1.21, z: 0}
 --- !u!1 &1978416228
 GameObject:
   m_ObjectHideFlags: 0

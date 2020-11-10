@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System;
 using UnityEngine;
+using System.Linq;
 
 public class ChickStorage : MonoBehaviour
 {
@@ -32,8 +33,16 @@ public class ChickStorage : MonoBehaviour
         
     }
 
-    public GameObject ClaimChick(out int myChickIndex) 
+    public GameObject ClaimChick(out int myChickIndex, string chickName = "") 
     {
+        if (chickName != "")
+        {
+            int chickIndex = allChicks.Select((chick, index) => chick.name == chickName ? index : -1).Where(index => index != -1).ToArray()[0];
+            chickIsClaimed[chickIndex] = true;
+            myChickIndex = chickIndex;
+            return allChicks[chickIndex];
+        }
+
         for (int chickIndex = 0; chickIndex < allChicks.Length; chickIndex++) 
         {
             if (!chickIsClaimed[chickIndex]) 

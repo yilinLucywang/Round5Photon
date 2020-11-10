@@ -166,11 +166,13 @@ public class QuickStartRoomController : MonoBehaviourPunCallbacks, IInRoomCallba
 		}
 	}
 
-	void Update(){
-		//TODO: change this later
-		if((playersInRoom == 1) && (MultiplayerSettings.multiplayerSettings.maxPlayers != 1)){
+	void Update()
+	{
+		if(playersInRoom < MultiplayerSettings.multiplayerSettings.maxPlayers)
+		{
 			RestartTimer();
 		}
+
 		if(!isGameLoaded){
 			if(readyToStart){
 				atMaxPlayer -= Time.deltaTime; 
@@ -214,7 +216,8 @@ public class QuickStartRoomController : MonoBehaviourPunCallbacks, IInRoomCallba
 		{
 			// I am a chick.
 			//SceneManager.LoadScene("ChickScene");
-			gameObject.AddComponent<ChickController>();
+			ChickController chickController = gameObject.AddComponent<ChickController>();
+			chickController.myChickNumber = myNumberInRoom - 2;
 		}
 
 		SceneManager.LoadScene("BarnScene");

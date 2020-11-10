@@ -99,6 +99,8 @@ ScriptsOnlyBuild:
       Script: {instanceID: 0}
     - Class: 135
       Script: {instanceID: 0}
+    - Class: 136
+      Script: {instanceID: 0}
     - Class: 157
       Script: {instanceID: 0}
     - Class: 196
@@ -185,7 +187,7 @@ ScriptsOnlyBuild:
     - Class: 114
       Script: {instanceID: 14196}
     - Class: 114
-      Script: {instanceID: 17426}
+      Script: {instanceID: 18528}
     - Class: 115
       Script: {instanceID: 0}
     - Class: 128
@@ -1552,7 +1554,7 @@ ScriptsOnlyBuild:
     className: OfflineModeProperty
   - hash:
       serializedVersion: 2
-      Hash: 0df41ebb4029ada8b65d984854854290
+      Hash: ad8763db1203353d2bbeba20f868b66c
     assemblyName: Assembly-CSharp.dll
     namespaceName: 
     className: ChickController
