@@ -122,13 +122,15 @@ public class FarmerController : MonoBehaviour
     {
         // Play splashing water animation and unparent from farmer so it doesnt move with him.
 
-        yield return new WaitForSeconds(2);
+        yield return new WaitForSeconds(0.5f);
 
         waterCollider.SetActive(true);
 
         yield return new WaitForSeconds(1);
 
         waterCollider.SetActive(false);
+
+        yield return new WaitForSeconds(1);
 
         hasWater = true;
     }

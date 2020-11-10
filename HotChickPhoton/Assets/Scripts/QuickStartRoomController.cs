@@ -188,10 +188,6 @@ public class QuickStartRoomController : MonoBehaviourPunCallbacks, IInRoomCallba
 		}
 
 
-		if (Input.GetKeyDown("Escape")) 
-		{
-			Application.Quit();
-		}
 	}
 
 	public void EnterUserName(){

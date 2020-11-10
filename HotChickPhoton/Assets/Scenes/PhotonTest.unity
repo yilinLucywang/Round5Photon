@@ -1525,7 +1525,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   quickStartButton: {fileID: 461243571}
   quickCancelButton: {fileID: 51961485}
-  RoomSize: 2
+  RoomSize: 4
   userNameBox: {fileID: 757311573}
 --- !u!4 &1197385846
 Transform:
