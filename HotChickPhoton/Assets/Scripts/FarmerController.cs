@@ -16,6 +16,8 @@ public class FarmerController : MonoBehaviour
     }
 
     public bool hasWater = true;
+    int splashingWater = 0;
+    int maxSplashingWater = 120;
 
     GameObject[] allChicks;
     GameObject[] allChickObjects;
@@ -23,7 +25,7 @@ public class FarmerController : MonoBehaviour
     GameObject myFarmerParent;
     public static GameObject myFarmerObject;
     Camera myCamera;
-    GameObject waterCollider;
+    WaterPutOutChick waterController;
     public static Rigidbody rb;
     public PhotonView photonView;
     int pvID;
@@ -41,17 +43,18 @@ public class FarmerController : MonoBehaviour
         photonView = GameObject.Find("QuickStartRoomController").GetComponent<PhotonView>();
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
+
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (myFarmerParent == null) 
+        if (myFarmerParent == null)
         {
             ClaimFarmer();
         }
 
-        if (myFarmerParent == null) 
+        if (myFarmerParent == null)
         {
             return;
         }
@@ -60,14 +63,20 @@ public class FarmerController : MonoBehaviour
 
         MoveFarmer();
 
+        hasWater = true;
 
 
-
-        if (hasWater && Input.GetAxis("Fire1") > 0) 
+        if (hasWater && Input.GetAxis("Fire1") > 0)
         {
-            SplashWater();
+            hasWater = false;
+            splashingWater = maxSplashingWater;
+            waterController.SplashWater();
         }
 
+        if (splashingWater > 0) 
+        { 
+            splashingWater--; 
+        }
 
 
         frameCounter++;
@@ -99,7 +108,7 @@ public class FarmerController : MonoBehaviour
 
             myFarmerObject = myFarmerParent.transform.GetChild(0).gameObject;
             myCamera = myFarmerObject.transform.GetChild(0).GetComponent<Camera>();
-            waterCollider = myFarmerObject.transform.GetChild(1).gameObject;
+            waterController = myFarmerObject.transform.GetChild(1).GetComponent<WaterPutOutChick>();
 
             rb = myFarmerObject.GetComponent<Rigidbody>();
 
@@ -111,33 +120,17 @@ public class FarmerController : MonoBehaviour
 
     }
 
-    void SplashWater() 
-    {
-        hasWater = false;
-        StartCoroutine(SplashWaterCoroutine());
-    }
-
-    IEnumerator SplashWaterCoroutine() 
-    {
-        // Play splashing water animation and unparent from farmer so it doesnt move with him.
-
-        yield return new WaitForSeconds(0.5f);
-
-        waterCollider.SetActive(true);
-
-        yield return new WaitForSeconds(1);
-
-        waterCollider.SetActive(false);
-
-        yield return new WaitForSeconds(1);
-
-        hasWater = true;
-    }
-
     void MoveFarmer()
     {
-        myFarmerObject.transform.RotateAround(myFarmerObject.transform.position, myFarmerObject.transform.up, Input.GetAxis("Mouse X") * rotationSpeed);
-        rb.velocity = myFarmerObject.transform.forward * moveSpeed;
+        if (splashingWater == 0)
+        {
+            myFarmerObject.transform.RotateAround(myFarmerObject.transform.position, myFarmerObject.transform.up, Input.GetAxis("Mouse X") * rotationSpeed);
+            rb.velocity = myFarmerObject.transform.forward * moveSpeed;
+        }
+        else 
+        {
+            rb.velocity = Vector3.zero;
+        }
     }
 
     void SendFarmerMovement() 
