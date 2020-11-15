@@ -50,7 +50,10 @@ public class hayController : MonoBehaviour
     		Vector3 position = chick.transform.position;
     		float distance =  Vector3.Distance(position, currentHayLocation);
     		if(distance <= distanceToLightAHay){
-    			lightedChickCount ++;
+                if(chick.transform.GetChild(1).gameObject.activeInHierarchy){
+                    Debug.Log("On fire here!");
+    			    lightedChickCount ++;
+                }
     		}
     	}
     	if(lightedChickCount > 0){
