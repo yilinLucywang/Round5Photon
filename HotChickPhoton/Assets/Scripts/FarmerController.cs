@@ -4,6 +4,7 @@ using System;
 using UnityEngine;
 using Photon.Pun;
 using System.Linq;
+using UnityEngine.UI;
 
 public class FarmerController : MonoBehaviour
 {
@@ -28,6 +29,7 @@ public class FarmerController : MonoBehaviour
     WaterPutOutChick waterController;
     public static Rigidbody rb;
     public PhotonView photonView;
+    public GameObject nameTag;
     int pvID;
 
 
@@ -131,6 +133,8 @@ public class FarmerController : MonoBehaviour
         {
             rb.velocity = Vector3.zero;
         }
+        GameObject.Find("Name").GetComponent<Text>().text = PhotonNetwork.NickName;
+        //nameTag.GetComponent<Text>().text = PhotonNetwork.NickName;
     }
 
     void SendFarmerMovement() 

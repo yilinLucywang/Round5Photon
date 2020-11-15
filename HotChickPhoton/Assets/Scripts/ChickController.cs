@@ -46,6 +46,8 @@ public class ChickController : MonoBehaviour
         photonView = GameObject.Find("QuickStartRoomController").GetComponent<PhotonView>();
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
+        Debug.Log("Chick name");
+        Debug.Log(PhotonNetwork.NickName);
     }
 
     // Update is called once per frame
