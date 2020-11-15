@@ -4,6 +4,7 @@ using System;
 using UnityEngine;
 using Photon.Pun;
 using System.Linq;
+using UnityEngine.UI;
 
 public class ChickController : MonoBehaviour
 {
@@ -46,8 +47,6 @@ public class ChickController : MonoBehaviour
         photonView = GameObject.Find("QuickStartRoomController").GetComponent<PhotonView>();
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
-        Debug.Log("Chick name");
-        Debug.Log(PhotonNetwork.NickName);
     }
 
     // Update is called once per frame
@@ -137,6 +136,15 @@ public class ChickController : MonoBehaviour
     {
         myChickObject.transform.RotateAround(myChickObject.transform.position, myChickObject.transform.up, Input.GetAxis("Mouse X") * rotationSpeed);
         rb.velocity = myChickObject.transform.forward * moveSpeed;
+        if(myChickNumber == 0){
+            GameObject.Find("ChickName1").GetComponent<Text>().text = PhotonNetwork.NickName;
+        }
+        else if(myChickNumber == 1){
+            GameObject.Find("ChickName2").GetComponent<Text>().text = PhotonNetwork.NickName;
+        }
+        else if(myChickNumber == 2){
+            GameObject.Find("ChickName3").GetComponent<Text>().text = PhotonNetwork.NickName;
+        }
     }
 
     public void SendChickMovement() 
