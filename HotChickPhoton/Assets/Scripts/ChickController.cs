@@ -191,9 +191,9 @@ public class ChickController : MonoBehaviour
     }
 
     [PunRPC]
-    public void UpdateFarmer(Vector3 chickPosition, Quaternion chickRotation)
+    public void UpdateFarmer(Vector3 chickPosition, Quaternion chickRotation, string farmerName)
     {
-        GameObject.Find("Name").GetComponent<Text>().text = PhotonNetwork.NickName;
+        GameObject.Find("Name").GetComponent<Text>().text = farmerName;
         StartCoroutine(UpdateFarmerLerp(chickPosition, chickRotation));
     }
 
