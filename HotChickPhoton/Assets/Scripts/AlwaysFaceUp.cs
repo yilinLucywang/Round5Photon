@@ -6,6 +6,6 @@ public class AlwaysFaceUp : MonoBehaviour
 {
     void Update()
     {
-        transform.up = Vector3.up;
+        transform.forward = Vector3.up;
     }
 }

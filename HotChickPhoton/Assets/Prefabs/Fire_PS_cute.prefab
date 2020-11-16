@@ -4823,6 +4823,7 @@ GameObject:
   - component: {fileID: 1224711779199399082}
   - component: {fileID: 1224711779199399083}
   - component: {fileID: 1224711779199399084}
+  - component: {fileID: 4504136064330030318}
   m_Layer: 0
   m_Name: Fire_PS_cute
   m_TagString: Untagged
@@ -9625,3 +9626,15 @@ ParticleSystemRenderer:
   m_Mesh2: {fileID: 0}
   m_Mesh3: {fileID: 0}
   m_MaskInteraction: 0
+--- !u!114 &4504136064330030318
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1224711779199399085}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f67c9740ca47a264cb5a1bb616062df6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
