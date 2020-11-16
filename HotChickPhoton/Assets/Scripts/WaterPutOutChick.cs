@@ -13,6 +13,9 @@ public class WaterPutOutChick : MonoBehaviour
 
     public bool isSpigot = true;
 
+    int putOutTimer = 10;
+    int putOutTimeLeft = 0;
+
     private void Start()
     {
         photonView = GameObject.Find("QuickStartRoomController").GetComponent<PhotonView>();
@@ -20,6 +23,15 @@ public class WaterPutOutChick : MonoBehaviour
         waterSpray = transform.GetChild(0).GetComponent<ParticleSystem>();
 
         farmerController = GameObject.Find("QuickStartRoomController").GetComponent<FarmerController>();
+    }
+
+    private void Update()
+    {
+        if (putOutTimeLeft > 0)
+        {
+            putOutTimeLeft--;
+        }
+
     }
 
     public bool SplashWater()
@@ -59,8 +71,9 @@ public class WaterPutOutChick : MonoBehaviour
 
     private void OnTriggerStay(Collider other)
     {
-        if (other.tag == "ChickCollider") 
+        if (other.tag == "ChickCollider" && putOutTimeLeft == 0) 
         {
+            putOutTimeLeft = putOutTimer;
             photonView.RPC("PutOutChick", RpcTarget.All, other.transform.parent.name);
         }
 
