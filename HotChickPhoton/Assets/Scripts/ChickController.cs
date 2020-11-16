@@ -145,6 +145,9 @@ public class ChickController : MonoBehaviour
         else if(myChickNumber == 2){
             GameObject.Find("ChickName3").GetComponent<Text>().text = PhotonNetwork.NickName;
         }
+        GameObject.Find("ChickName1").transform.LookAt(myCamera.transform);
+        GameObject.Find("ChickName2").transform.LookAt(myCamera.transform);
+        GameObject.Find("ChickName3").transform.LookAt(myCamera.transform);
     }
 
     public void SendChickMovement() 
@@ -194,6 +197,7 @@ public class ChickController : MonoBehaviour
     public void UpdateFarmer(Vector3 chickPosition, Quaternion chickRotation, string farmerName)
     {
         GameObject.Find("Name").GetComponent<Text>().text = farmerName;
+        GameObject.Find("Name").transform.LookAt(myCamera.transform);
         StartCoroutine(UpdateFarmerLerp(chickPosition, chickRotation));
     }
 

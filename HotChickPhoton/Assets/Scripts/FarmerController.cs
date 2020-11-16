@@ -134,6 +134,9 @@ public class FarmerController : MonoBehaviour
             rb.velocity = Vector3.zero;
         }
         GameObject.Find("Name").GetComponent<Text>().text = PhotonNetwork.NickName;
+        Debug.Log("camera orientation");
+        Debug.Log(myCamera.transform);
+        GameObject.Find("Name").GetComponent<Text>().transform.LookAt(myCamera.transform);
         //nameTag.GetComponent<Text>().text = PhotonNetwork.NickName;
     }
 
