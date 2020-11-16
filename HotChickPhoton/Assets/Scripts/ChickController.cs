@@ -156,15 +156,6 @@ public class ChickController : MonoBehaviour
     [PunRPC]
     public void UpdateChick(string chickName, Vector3 chickPosition, Quaternion chickRotation)
     {
-        if(myChickNumber == 0){
-            GameObject.Find("ChickName1").GetComponent<Text>().text = PhotonNetwork.NickName;
-        }
-        else if(myChickNumber == 1){
-            GameObject.Find("ChickName2").GetComponent<Text>().text = PhotonNetwork.NickName;
-        }
-        else if(myChickNumber == 2){
-            GameObject.Find("ChickName3").GetComponent<Text>().text = PhotonNetwork.NickName;
-        }
         StartCoroutine(UpdateChickLerp(chickName, chickPosition, chickRotation));
     }
 
@@ -193,7 +184,6 @@ public class ChickController : MonoBehaviour
     [PunRPC]
     public void UpdateFarmer(Vector3 chickPosition, Quaternion chickRotation)
     {
-        GameObject.Find("Name").GetComponent<Text>().text = PhotonNetwork.NickName;
         StartCoroutine(UpdateFarmerLerp(chickPosition, chickRotation));
     }
 
