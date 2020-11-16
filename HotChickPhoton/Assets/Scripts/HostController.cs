@@ -80,20 +80,15 @@ public class HostController : MonoBehaviour
         }
 
 
-        
 
-        farmerObject = GameObject.FindGameObjectWithTag("Farmer").transform.GetChild(0).gameObject;
+        farmerParent = GameObject.FindGameObjectWithTag("Farmer");
+        farmerObject = farmerParent.transform.GetChild(0).gameObject;
         farmerObject.GetComponent<BoxCollider>().enabled = false;
         farmerObject.GetComponent<Rigidbody>().useGravity = false;
         farmerObject.GetComponent<Rigidbody>().isKinematic = true;
 
         waterParticleSystem = farmerObject.transform.GetChild(1).GetChild(0).GetComponent<ParticleSystem>();
 
-        if (farmerParent != null)
-        {
-            farmerObject = farmerParent.transform.GetChild(0).gameObject;
-
-        }
 
 
         myCamera = gameObject.AddComponent<Camera>();

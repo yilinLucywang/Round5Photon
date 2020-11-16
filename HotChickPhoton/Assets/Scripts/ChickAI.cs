@@ -36,7 +36,7 @@ public class ChickAI : MonoBehaviour
 
     void MoveChick()
     {
-        transform.RotateAround(transform.position, transform.up, Random.Range(-0.5f, 0.5f));
+        transform.RotateAround(transform.position, transform.up, Random.Range(-1.0f, 1.0f));
         rb.velocity = transform.forward * moveSpeed;
     }
 
