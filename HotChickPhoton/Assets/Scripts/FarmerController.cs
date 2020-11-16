@@ -4,7 +4,6 @@ using System;
 using UnityEngine;
 using Photon.Pun;
 using System.Linq;
-using UnityEngine.UI;
 
 public class FarmerController : MonoBehaviour
 {
@@ -16,9 +15,10 @@ public class FarmerController : MonoBehaviour
         }
     }
 
-    public bool hasWater = true;
+    int waterLeft;
+    int maxWater = 3;
     int splashingWater = 0;
-    int maxSplashingWater = 120;
+    int maxSplashingWater = 60;
 
     GameObject[] allChicks;
     GameObject[] allChickObjects;
@@ -29,7 +29,6 @@ public class FarmerController : MonoBehaviour
     WaterPutOutChick waterController;
     public static Rigidbody rb;
     public PhotonView photonView;
-    public GameObject nameTag;
     int pvID;
 
 
@@ -46,6 +45,7 @@ public class FarmerController : MonoBehaviour
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
 
+        waterLeft = maxWater;
     }
 
     // Update is called once per frame
@@ -65,24 +65,25 @@ public class FarmerController : MonoBehaviour
 
         MoveFarmer();
 
-        hasWater = true;
-
-
-        if (hasWater && Input.GetAxis("Fire1") > 0)
+        // TODO: Fix to allow splashing while other water is still going.
+        if (waterLeft > 0 && Input.GetButtonDown("Fire1") && splashingWater == 0)
         {
-            hasWater = false;
-            splashingWater = maxSplashingWater;
-            waterController.SplashWater();
+            bool splashedSuccessfully = waterController.SplashWater();
+            if (splashedSuccessfully)
+            {
+                waterLeft--;
+                splashingWater = maxSplashingWater;
+            }
         }
 
-        if (splashingWater > 0) 
-        { 
-            splashingWater--; 
+        if (splashingWater > 0)
+        {
+            splashingWater--;
         }
 
 
         frameCounter++;
-        if (frameCounter == 6) 
+        if (frameCounter == 6)
         {
             SendFarmerMovement();
             frameCounter = 0;
@@ -91,21 +92,33 @@ public class FarmerController : MonoBehaviour
 
     }
 
-    void ClaimFarmer() 
+    public void FillBucket()
+    {
+        waterLeft = maxWater;
+    }
+
+    void ClaimFarmer()
     {
         allChicks = GameObject.FindGameObjectsWithTag("Chick");
         Array.Sort(allChicks, new ChickCompare());
         allChickObjects = allChicks.Select(chickParent => chickParent.transform.GetChild(0).gameObject).ToArray();
 
-        if (allChicks.Length == 0) 
+        if (allChicks.Length == 0)
         {
             return;
+        }
+
+        foreach (GameObject chickObject in allChickObjects)
+        {
+            ChickAI chickAI = chickObject.GetComponent<ChickAI>();
+            chickAI.photonView = photonView;
+            chickAI.enabled = true;
         }
 
 
         myFarmerParent = GameObject.Find("FarmerParent");
 
-        if (myFarmerParent != null) 
+        if (myFarmerParent != null)
         {
 
             myFarmerObject = myFarmerParent.transform.GetChild(0).gameObject;
@@ -129,24 +142,19 @@ public class FarmerController : MonoBehaviour
             myFarmerObject.transform.RotateAround(myFarmerObject.transform.position, myFarmerObject.transform.up, Input.GetAxis("Mouse X") * rotationSpeed);
             rb.velocity = myFarmerObject.transform.forward * moveSpeed;
         }
-        else 
+        else
         {
             rb.velocity = Vector3.zero;
         }
-        GameObject.Find("Name").GetComponent<Text>().text = PhotonNetwork.NickName;
-        Debug.Log("camera orientation");
-        Debug.Log(myCamera.transform);
-        GameObject.Find("Name").GetComponent<Text>().transform.LookAt(myCamera.transform);
-        //nameTag.GetComponent<Text>().text = PhotonNetwork.NickName;
     }
 
-    void SendFarmerMovement() 
+    void SendFarmerMovement()
     {
-        photonView.RPC("UpdateFarmer", RpcTarget.Others, myFarmerObject.transform.position, myFarmerObject.transform.rotation, PhotonNetwork.NickName);
+        photonView.RPC("UpdateFarmer", RpcTarget.Others, myFarmerObject.transform.position, myFarmerObject.transform.rotation);
     }
 
     [PunRPC]
-    public void UpdateChick(string chickName, Vector3 chickPosition, Quaternion chickRotation) 
+    public void UpdateChick(string chickName, Vector3 chickPosition, Quaternion chickRotation)
     {
         Debug.Log("Updating chick " + chickName);
         StartCoroutine(UpdateChickLerp(chickName, chickPosition, chickRotation));
@@ -188,6 +196,14 @@ public class FarmerController : MonoBehaviour
         GameObject localChick = allChicks.Where(chick => chick.name == remoteChick).ToArray()[0];
 
         localChick.transform.GetChild(0).GetChild(1).gameObject.SetActive(true);
+    }
+
+    [PunRPC]
+    public void StopChickAI(string remoteChick)
+    {
+        GameObject localChick = allChicks.Where(chick => chick.name == remoteChick).ToArray()[0];
+
+        localChick.transform.GetChild(0).GetComponent<ChickAI>().enabled = false;
     }
 
 }

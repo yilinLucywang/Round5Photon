@@ -4,7 +4,6 @@ using System;
 using UnityEngine;
 using Photon.Pun;
 using System.Linq;
-using UnityEngine.UI;
 
 public class ChickController : MonoBehaviour
 {
@@ -34,6 +33,7 @@ public class ChickController : MonoBehaviour
     public static Rigidbody rb;
 
     GameObject farmerObject;
+    ParticleSystem waterParticleSystem;
 
     public float moveSpeed = 4;
     public float rotationSpeed = 1.2f;
@@ -53,7 +53,7 @@ public class ChickController : MonoBehaviour
     void Update()
     {
 
-        if (!claimedChick) 
+        if (!claimedChick)
         {
             ClaimChick();
         }
@@ -76,24 +76,15 @@ public class ChickController : MonoBehaviour
         }
 
 
-        if (fireObject.activeInHierarchy)
-        {
-            onFire = true;
-        }
-        else
-        {
-            onFire = false;
-        }
-
     }
 
-    void ClaimChick() 
+    void ClaimChick()
     {
         allChicks = GameObject.FindGameObjectsWithTag("Chick");
         Array.Sort(allChicks, new ChickCompare());
         allChickObjects = allChicks.Select(chickParent => chickParent.transform.GetChild(0).gameObject).ToArray();
 
-        if (allChicks.Length == 0) 
+        if (allChicks.Length == 0)
         {
             return;
         }
@@ -101,12 +92,15 @@ public class ChickController : MonoBehaviour
         farmerObject = GameObject.FindGameObjectWithTag("Farmer").transform.GetChild(0).gameObject;
         farmerObject.GetComponent<BoxCollider>().enabled = false;
         farmerObject.GetComponent<Rigidbody>().useGravity = false;
+        farmerObject.GetComponent<Rigidbody>().isKinematic = true;
+
+        waterParticleSystem = farmerObject.transform.GetChild(1).GetChild(0).GetComponent<ParticleSystem>();
 
         ChickStorage chickStorage = GameObject.Find("ChickStorage").GetComponent<ChickStorage>();
 
         myChickParent = chickStorage.ClaimChick(out myChickIndex, allChicks[myChickNumber].name);
 
-        if (myChickParent != null) 
+        if (myChickParent != null)
         {
             claimedChick = true;
 
@@ -114,11 +108,14 @@ public class ChickController : MonoBehaviour
             myCamera = myChickObject.transform.GetChild(0).GetComponent<Camera>();
             fireObject = myChickObject.transform.GetChild(1).gameObject;
 
+            myChickObject.GetComponent<ChickAI>().enabled = false;
+            photonView.RPC("StopChickAI", RpcTarget.Others, myChickParent.name);
+
             if (fireObject.activeInHierarchy)
             {
                 onFire = true;
             }
-            else 
+            else
             {
                 onFire = false;
             }
@@ -136,21 +133,9 @@ public class ChickController : MonoBehaviour
     {
         myChickObject.transform.RotateAround(myChickObject.transform.position, myChickObject.transform.up, Input.GetAxis("Mouse X") * rotationSpeed);
         rb.velocity = myChickObject.transform.forward * moveSpeed;
-        if(myChickNumber == 0){
-            GameObject.Find("ChickName1").GetComponent<Text>().text = PhotonNetwork.NickName;
-        }
-        else if(myChickNumber == 1){
-            GameObject.Find("ChickName2").GetComponent<Text>().text = PhotonNetwork.NickName;
-        }
-        else if(myChickNumber == 2){
-            GameObject.Find("ChickName3").GetComponent<Text>().text = PhotonNetwork.NickName;
-        }
-        GameObject.Find("ChickName1").transform.LookAt(myCamera.transform);
-        GameObject.Find("ChickName2").transform.LookAt(myCamera.transform);
-        GameObject.Find("ChickName3").transform.LookAt(myCamera.transform);
     }
 
-    public void SendChickMovement() 
+    public void SendChickMovement()
     {
         photonView.RPC("UpdateChick", RpcTarget.Others, myChickParent.name, myChickObject.transform.position, myChickObject.transform.rotation);
     }
@@ -159,15 +144,6 @@ public class ChickController : MonoBehaviour
     [PunRPC]
     public void UpdateChick(string chickName, Vector3 chickPosition, Quaternion chickRotation)
     {
-        if(myChickNumber == 0){
-            GameObject.Find("ChickName1").GetComponent<Text>().text = PhotonNetwork.NickName;
-        }
-        else if(myChickNumber == 1){
-            GameObject.Find("ChickName2").GetComponent<Text>().text = PhotonNetwork.NickName;
-        }
-        else if(myChickNumber == 2){
-            GameObject.Find("ChickName3").GetComponent<Text>().text = PhotonNetwork.NickName;
-        }
         StartCoroutine(UpdateChickLerp(chickName, chickPosition, chickRotation));
     }
 
@@ -194,10 +170,8 @@ public class ChickController : MonoBehaviour
     }
 
     [PunRPC]
-    public void UpdateFarmer(Vector3 chickPosition, Quaternion chickRotation, string farmerName)
+    public void UpdateFarmer(Vector3 chickPosition, Quaternion chickRotation)
     {
-        GameObject.Find("Name").GetComponent<Text>().text = farmerName;
-        GameObject.Find("Name").transform.LookAt(myCamera.transform);
         StartCoroutine(UpdateFarmerLerp(chickPosition, chickRotation));
     }
 
@@ -227,6 +201,11 @@ public class ChickController : MonoBehaviour
         GameObject localChick = allChicks.Where(chick => chick.name == remoteChick).ToArray()[0];
 
         localChick.transform.GetChild(0).GetChild(1).gameObject.SetActive(false);
+
+        if (localChick == myChickObject)
+        {
+            onFire = false;
+        }
     }
 
     [PunRPC]
@@ -235,7 +214,21 @@ public class ChickController : MonoBehaviour
         GameObject localChick = allChicks.Where(chick => chick.name == remoteChick).ToArray()[0];
 
         localChick.transform.GetChild(0).GetChild(1).gameObject.SetActive(true);
+
+        if (localChick == myChickObject)
+        {
+            onFire = true;
+        }
     }
 
+
+    [PunRPC]
+    public void SyncWater(Vector3 waterPosition, Quaternion waterRotation)
+    {
+        waterParticleSystem.transform.position = waterPosition;
+        waterParticleSystem.transform.rotation = waterRotation;
+
+        waterParticleSystem.Play();
+    }
 
 }

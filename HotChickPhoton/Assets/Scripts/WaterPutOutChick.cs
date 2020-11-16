@@ -9,16 +9,29 @@ public class WaterPutOutChick : MonoBehaviour
     Collider waterCollider;
     ParticleSystem waterSpray;
 
+    FarmerController farmerController;
+
+    public bool isSpigot = true;
+
     private void Start()
     {
         photonView = GameObject.Find("QuickStartRoomController").GetComponent<PhotonView>();
         waterCollider = GetComponent<Collider>();
         waterSpray = transform.GetChild(0).GetComponent<ParticleSystem>();
+
+        farmerController = GameObject.Find("QuickStartRoomController").GetComponent<FarmerController>();
     }
 
-    public void SplashWater()
+    public bool SplashWater()
     {
+        if (transform.parent == null) 
+        {
+            return false;
+        }
+
         StartCoroutine(SplashWaterCoroutine());
+
+        return true;
     }
 
     IEnumerator SplashWaterCoroutine()
@@ -29,9 +42,7 @@ public class WaterPutOutChick : MonoBehaviour
         transform.parent = null;
 
         waterSpray.Play();
-        yield return new WaitForSeconds(0.5f);
-        waterSpray.Stop();
-        yield return new WaitForSeconds(0.5f);
+        yield return new WaitForSeconds(0.25f);
 
         waterCollider.enabled = true;
 
@@ -51,6 +62,11 @@ public class WaterPutOutChick : MonoBehaviour
         if (other.tag == "ChickCollider") 
         {
             photonView.RPC("PutOutChick", RpcTarget.All, other.transform.parent.name);
+        }
+
+        if (isSpigot && other.tag == "FarmerCollider" && farmerController != null) 
+        {
+            farmerController.FillBucket();
         }
     }
 }
