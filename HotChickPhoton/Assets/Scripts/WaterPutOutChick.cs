@@ -5,32 +5,20 @@ using Photon.Pun;
 
 public class WaterPutOutChick : MonoBehaviour
 {
-    public bool isSpigot = true;
-
     PhotonView photonView;
     Collider waterCollider;
     ParticleSystem waterSpray;
-
-    FarmerController farmerController;
 
     private void Start()
     {
         photonView = GameObject.Find("QuickStartRoomController").GetComponent<PhotonView>();
         waterCollider = GetComponent<Collider>();
         waterSpray = transform.GetChild(0).GetComponent<ParticleSystem>();
-
-        farmerController = GameObject.Find("QuickStartRoomController").GetComponent<FarmerController>();
     }
 
-    public bool SplashWater()
+    public void SplashWater()
     {
-        if (transform.parent != null)
-        {
-            StartCoroutine(SplashWaterCoroutine());
-            return true;
-        }
-
-        return false;
+        StartCoroutine(SplashWaterCoroutine());
     }
 
     IEnumerator SplashWaterCoroutine()
@@ -41,16 +29,16 @@ public class WaterPutOutChick : MonoBehaviour
         transform.parent = null;
 
         waterSpray.Play();
-        photonView.RPC("SyncWater", RpcTarget.Others, waterSpray.transform.position, waterSpray.transform.rotation);
-        yield return new WaitForSeconds(0.75f);
+        yield return new WaitForSeconds(0.5f);
+        waterSpray.Stop();
+        yield return new WaitForSeconds(0.5f);
 
         waterCollider.enabled = true;
 
-        yield return new WaitForSeconds(0.25f);
+        yield return new WaitForSeconds(1);
 
         waterCollider.enabled = false;
 
-        yield return new WaitForSeconds(1.0f);
 
         transform.parent = farmerParentGameObject.transform;
         transform.localPosition = underFarmerPosition;
@@ -63,14 +51,6 @@ public class WaterPutOutChick : MonoBehaviour
         if (other.tag == "ChickCollider") 
         {
             photonView.RPC("PutOutChick", RpcTarget.All, other.transform.parent.name);
-        }
-
-        if (other.tag == "FarmerCollider" && isSpigot)
-        {
-            if (farmerController != null) 
-            {
-                farmerController.FillBucket();
-            }
         }
     }
 }

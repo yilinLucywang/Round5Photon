@@ -1,9 +1,7 @@
 ScriptsOnlyBuild:
   usedScripts:
     Assembly-CSharp.dll:
-    - AudioController
     - CameraFollowChick
-    - ChickAI
     - ChickColliderController
     - ChickController
     - ChickStorage
@@ -90,17 +88,13 @@ ScriptsOnlyBuild:
     - Class: 108
       Script: {instanceID: 0}
     - Class: 114
-      Script: {instanceID: 12010}
+      Script: {instanceID: 12882}
     - Class: 114
-      Script: {instanceID: 12938}
+      Script: {instanceID: 13316}
     - Class: 114
-      Script: {instanceID: 13386}
+      Script: {instanceID: 13426}
     - Class: 114
-      Script: {instanceID: 13496}
-    - Class: 114
-      Script: {instanceID: 13756}
-    - Class: 114
-      Script: {instanceID: 13968}
+      Script: {instanceID: 13872}
     - Class: 115
       Script: {instanceID: 0}
     - Class: 135
@@ -135,9 +129,9 @@ ScriptsOnlyBuild:
     - Class: 104
       Script: {instanceID: 0}
     - Class: 114
-      Script: {instanceID: 13820}
+      Script: {instanceID: 13728}
     - Class: 114
-      Script: {instanceID: 14226}
+      Script: {instanceID: 14124}
     - Class: 115
       Script: {instanceID: 0}
     - Class: 157
@@ -158,16 +152,63 @@ ScriptsOnlyBuild:
     - Class: 104
       Script: {instanceID: 0}
     - Class: 114
-      Script: {instanceID: 12248}
+      Script: {instanceID: 12206}
     - Class: 114
-      Script: {instanceID: 13820}
+      Script: {instanceID: 13728}
     - Class: 115
       Script: {instanceID: 0}
     - Class: 157
       Script: {instanceID: 0}
     - Class: 196
       Script: {instanceID: 0}
-    Assets/Scenes/HostScene.unity:
+    Assets/Scenes/MultiplayerScene.unity:
+    - Class: 1
+      Script: {instanceID: 0}
+    - Class: 4
+      Script: {instanceID: 0}
+    - Class: 20
+      Script: {instanceID: 0}
+    - Class: 21
+      Script: {instanceID: 0}
+    - Class: 28
+      Script: {instanceID: 0}
+    - Class: 48
+      Script: {instanceID: 0}
+    - Class: 81
+      Script: {instanceID: 0}
+    - Class: 104
+      Script: {instanceID: 0}
+    - Class: 108
+      Script: {instanceID: 0}
+    - Class: 114
+      Script: {instanceID: 11708}
+    - Class: 114
+      Script: {instanceID: 11740}
+    - Class: 114
+      Script: {instanceID: 12528}
+    - Class: 114
+      Script: {instanceID: 13724}
+    - Class: 114
+      Script: {instanceID: 14100}
+    - Class: 114
+      Script: {instanceID: 14196}
+    - Class: 114
+      Script: {instanceID: 20622}
+    - Class: 115
+      Script: {instanceID: 0}
+    - Class: 128
+      Script: {instanceID: 0}
+    - Class: 157
+      Script: {instanceID: 0}
+    - Class: 196
+      Script: {instanceID: 0}
+    - Class: 222
+      Script: {instanceID: 0}
+    - Class: 223
+      Script: {instanceID: 0}
+    - Class: 224
+      Script: {instanceID: 0}
+    Assets/Scenes/PhotonTest.unity:
     - Class: 1
       Script: {instanceID: 0}
     - Class: 4
@@ -194,8 +235,6 @@ ScriptsOnlyBuild:
       Script: {instanceID: 0}
     - Class: 81
       Script: {instanceID: 0}
-    - Class: 83
-      Script: {instanceID: 0}
     - Class: 90
       Script: {instanceID: 0}
     - Class: 91
@@ -207,61 +246,61 @@ ScriptsOnlyBuild:
     - Class: 108
       Script: {instanceID: 0}
     - Class: 114
-      Script: {instanceID: 11732}
+      Script: {instanceID: 11708}
     - Class: 114
-      Script: {instanceID: 11734}
+      Script: {instanceID: 11710}
     - Class: 114
-      Script: {instanceID: 11736}
+      Script: {instanceID: 11712}
     - Class: 114
-      Script: {instanceID: 11738}
+      Script: {instanceID: 11714}
     - Class: 114
       Script: {instanceID: 11740}
     - Class: 114
-      Script: {instanceID: 11902}
+      Script: {instanceID: 11870}
     - Class: 114
-      Script: {instanceID: 11936}
+      Script: {instanceID: 11904}
     - Class: 114
-      Script: {instanceID: 11954}
+      Script: {instanceID: 11922}
     - Class: 114
-      Script: {instanceID: 12040}
+      Script: {instanceID: 12006}
     - Class: 114
-      Script: {instanceID: 12118}
+      Script: {instanceID: 12078}
     - Class: 114
-      Script: {instanceID: 12540}
+      Script: {instanceID: 12498}
     - Class: 114
-      Script: {instanceID: 12572}
+      Script: {instanceID: 12528}
     - Class: 114
-      Script: {instanceID: 12656}
+      Script: {instanceID: 12612}
     - Class: 114
-      Script: {instanceID: 12910}
+      Script: {instanceID: 12854}
     - Class: 114
-      Script: {instanceID: 12990}
+      Script: {instanceID: 12930}
     - Class: 114
-      Script: {instanceID: 13210}
+      Script: {instanceID: 13146}
     - Class: 114
-      Script: {instanceID: 13296}
+      Script: {instanceID: 13226}
     - Class: 114
-      Script: {instanceID: 13384}
+      Script: {instanceID: 13314}
     - Class: 114
-      Script: {instanceID: 13398}
+      Script: {instanceID: 13328}
     - Class: 114
-      Script: {instanceID: 13410}
+      Script: {instanceID: 13340}
     - Class: 114
-      Script: {instanceID: 13426}
+      Script: {instanceID: 13356}
     - Class: 114
-      Script: {instanceID: 13630}
+      Script: {instanceID: 13558}
     - Class: 114
-      Script: {instanceID: 13654}
+      Script: {instanceID: 13580}
     - Class: 114
-      Script: {instanceID: 13664}
+      Script: {instanceID: 13590}
     - Class: 114
-      Script: {instanceID: 13816}
+      Script: {instanceID: 13724}
     - Class: 114
-      Script: {instanceID: 14202}
+      Script: {instanceID: 14100}
     - Class: 114
-      Script: {instanceID: 14298}
+      Script: {instanceID: 14196}
     - Class: 114
-      Script: {instanceID: 14336}
+      Script: {instanceID: 14232}
     - Class: 115
       Script: {instanceID: 0}
     - Class: 128
@@ -294,123 +333,7 @@ ScriptsOnlyBuild:
       Script: {instanceID: 0}
     - Class: 850595691
       Script: {instanceID: 0}
-    Assets/Scenes/MultiplayerScene.unity:
-    - Class: 1
-      Script: {instanceID: 0}
-    - Class: 4
-      Script: {instanceID: 0}
-    - Class: 20
-      Script: {instanceID: 0}
-    - Class: 21
-      Script: {instanceID: 0}
-    - Class: 28
-      Script: {instanceID: 0}
-    - Class: 48
-      Script: {instanceID: 0}
-    - Class: 81
-      Script: {instanceID: 0}
-    - Class: 104
-      Script: {instanceID: 0}
-    - Class: 108
-      Script: {instanceID: 0}
-    - Class: 114
-      Script: {instanceID: 11732}
-    - Class: 114
-      Script: {instanceID: 11734}
-    - Class: 114
-      Script: {instanceID: 12572}
-    - Class: 114
-      Script: {instanceID: 13816}
-    - Class: 114
-      Script: {instanceID: 14202}
-    - Class: 114
-      Script: {instanceID: 14298}
-    - Class: 114
-      Script: {instanceID: 22752}
-    - Class: 115
-      Script: {instanceID: 0}
-    - Class: 128
-      Script: {instanceID: 0}
-    - Class: 157
-      Script: {instanceID: 0}
-    - Class: 196
-      Script: {instanceID: 0}
-    - Class: 222
-      Script: {instanceID: 0}
-    - Class: 223
-      Script: {instanceID: 0}
-    - Class: 224
-      Script: {instanceID: 0}
-    Assets/Scenes/PhotonTest.unity:
-    - Class: 1
-      Script: {instanceID: 0}
-    - Class: 4
-      Script: {instanceID: 0}
-    - Class: 20
-      Script: {instanceID: 0}
-    - Class: 21
-      Script: {instanceID: 0}
-    - Class: 28
-      Script: {instanceID: 0}
-    - Class: 48
-      Script: {instanceID: 0}
-    - Class: 81
-      Script: {instanceID: 0}
-    - Class: 104
-      Script: {instanceID: 0}
-    - Class: 108
-      Script: {instanceID: 0}
-    - Class: 114
-      Script: {instanceID: 11732}
-    - Class: 114
-      Script: {instanceID: 11734}
-    - Class: 114
-      Script: {instanceID: 11736}
-    - Class: 114
-      Script: {instanceID: 11902}
-    - Class: 114
-      Script: {instanceID: 12040}
-    - Class: 114
-      Script: {instanceID: 12118}
-    - Class: 114
-      Script: {instanceID: 12540}
-    - Class: 114
-      Script: {instanceID: 12572}
-    - Class: 114
-      Script: {instanceID: 13410}
-    - Class: 114
-      Script: {instanceID: 13426}
-    - Class: 114
-      Script: {instanceID: 13816}
-    - Class: 114
-      Script: {instanceID: 14202}
-    - Class: 114
-      Script: {instanceID: 14298}
-    - Class: 115
-      Script: {instanceID: 0}
-    - Class: 128
-      Script: {instanceID: 0}
-    - Class: 157
-      Script: {instanceID: 0}
-    - Class: 196
-      Script: {instanceID: 0}
-    - Class: 213
-      Script: {instanceID: 0}
-    - Class: 222
-      Script: {instanceID: 0}
-    - Class: 223
-      Script: {instanceID: 0}
-    - Class: 224
-      Script: {instanceID: 0}
-    - Class: 850595691
-      Script: {instanceID: 0}
   scriptHashData:
-  - hash:
-      serializedVersion: 2
-      Hash: 4bc4346a71a8df53a6b106f68ef3a190
-    assemblyName: UnityEngine.UI.dll
-    namespaceName: UnityEngine.UI
-    className: CanvasScaler
   - hash:
       serializedVersion: 2
       Hash: 699619b86d9359741a4f58540298c80b
@@ -447,6 +370,12 @@ ScriptsOnlyBuild:
     assemblyName: PhotonUnityNetworking.Utilities.dll
     namespaceName: Photon.Pun.UtilityScripts
     className: PunTeams
+  - hash:
+      serializedVersion: 2
+      Hash: 4bc4346a71a8df53a6b106f68ef3a190
+    assemblyName: UnityEngine.UI.dll
+    namespaceName: UnityEngine.UI
+    className: CanvasScaler
   - hash:
       serializedVersion: 2
       Hash: 74494c459d8da1b3c2f0349d1d8534aa
@@ -605,12 +534,6 @@ ScriptsOnlyBuild:
     className: Scrollbar
   - hash:
       serializedVersion: 2
-      Hash: 717d5f4a1848e63fdcea4b69b087f51a
-    assemblyName: Assembly-CSharp.dll
-    namespaceName: 
-    className: ChickAI
-  - hash:
-      serializedVersion: 2
       Hash: 71bb6a6b6c8f052f948db64c7dd3ca4f
     assemblyName: UnityEngine.UI.dll
     namespaceName: UnityEngine.UI
@@ -635,22 +558,10 @@ ScriptsOnlyBuild:
     className: Image
   - hash:
       serializedVersion: 2
-      Hash: 8860633d29a22ff64e02e18da3716cdf
-    assemblyName: Assembly-CSharp.dll
-    namespaceName: UnityTemplateProjects
-    className: SimpleCameraController
-  - hash:
-      serializedVersion: 2
       Hash: 71bb6a6b6c8f052f948db64c7dd3ca4f
     assemblyName: UnityEngine.TestRunner.dll
     namespaceName: UnityEngine.TestTools.TestRunner.Callbacks
     className: TestResultRendererCallback
-  - hash:
-      serializedVersion: 2
-      Hash: 5b07d52e4e9eab4b514e3350e281a5aa
-    assemblyName: Assembly-CSharp.dll
-    namespaceName: FlatKit
-    className: FogImageEffect
   - hash:
       serializedVersion: 2
       Hash: 5f206dd3b0d6b103c9456019be49d644
@@ -693,12 +604,6 @@ ScriptsOnlyBuild:
     assemblyName: Assembly-CSharp.dll
     namespaceName: Photon.Realtime.Demo
     className: ConnectAndJoinRandomLb
-  - hash:
-      serializedVersion: 2
-      Hash: 71bb6a6b6c8f052f948db64c7dd3ca4f
-    assemblyName: Assembly-CSharp.dll
-    namespaceName: 
-    className: SwipeController
   - hash:
       serializedVersion: 2
       Hash: 8aa3d6ccbcb54ee8db6c1229854adaaa
@@ -761,7 +666,7 @@ ScriptsOnlyBuild:
     className: ToDemoHubButton
   - hash:
       serializedVersion: 2
-      Hash: 717d5f4a1848e63fdcea4b69b087f51a
+      Hash: 39284251b1757def64c023cb9ecc8be4
     assemblyName: Assembly-CSharp.dll
     namespaceName: 
     className: FarmerController
@@ -965,12 +870,6 @@ ScriptsOnlyBuild:
     className: CurrentRoomPlayerTtlProperty
   - hash:
       serializedVersion: 2
-      Hash: 4c92f5523ecd583e8e9b05c08f384059
-    assemblyName: Assembly-CSharp.dll
-    namespaceName: 
-    className: SampleSceneController
-  - hash:
-      serializedVersion: 2
       Hash: f941c3a384168571b7d90f58ec4986bc
     assemblyName: PhotonUnityNetworking.Demos.dll
     namespaceName: Photon.Pun.Demo.Cockpit
@@ -1083,12 +982,6 @@ ScriptsOnlyBuild:
     assemblyName: Unity.TextMeshPro.dll
     namespaceName: TMPro
     className: TMP_SpriteAnimator
-  - hash:
-      serializedVersion: 2
-      Hash: 3d60c63def5dc36f0a8b33a1b07431be
-    assemblyName: Assembly-CSharp.dll
-    namespaceName: FlatKit
-    className: LinearMotion
   - hash:
       serializedVersion: 2
       Hash: 259988b2d867e1586634d64379c5ff81
@@ -1215,12 +1108,6 @@ ScriptsOnlyBuild:
     assemblyName: PhotonUnityNetworking.Demos.dll
     namespaceName: Photon.Pun.Demo.Cockpit
     className: ToggleExpand
-  - hash:
-      serializedVersion: 2
-      Hash: 71bb6a6b6c8f052f948db64c7dd3ca4f
-    assemblyName: Assembly-CSharp.dll
-    namespaceName: 
-    className: ReverseNormals
   - hash:
       serializedVersion: 2
       Hash: 3164bc883ff663a5cdb32d1ef7e7c0c5
@@ -1403,12 +1290,6 @@ ScriptsOnlyBuild:
     className: CameraWork
   - hash:
       serializedVersion: 2
-      Hash: 27ba96c57016db921450d054d19563d3
-    assemblyName: Assembly-CSharp.dll
-    namespaceName: Kayac.VisualArts
-    className: LocalLight
-  - hash:
-      serializedVersion: 2
       Hash: e10400e84c8c573b2b5e4088aca77453
     assemblyName: PhotonUnityNetworking.Demos.dll
     namespaceName: Photon.Pun.Demo.PunBasics
@@ -1421,28 +1302,10 @@ ScriptsOnlyBuild:
     className: Asteroid
   - hash:
       serializedVersion: 2
-      Hash: 58e68364412c67eae2bdb4954be2dcc2
-    assemblyName: Assembly-CSharp.dll
-    namespaceName: 
-    className: Readme
-  - hash:
-      serializedVersion: 2
-      Hash: 04ac018a3cc9affaab74d70a0e6cfaa2
-    assemblyName: Assembly-CSharp.dll
-    namespaceName: Kayac.VisualArts
-    className: KamakuraRampTexture
-  - hash:
-      serializedVersion: 2
       Hash: 7829e932aec962afd9bcfad28ffff27d
     assemblyName: PhotonUnityNetworking.Utilities.dll
     namespaceName: Photon.Pun.UtilityScripts
     className: OnJoinedInstantiate
-  - hash:
-      serializedVersion: 2
-      Hash: dee9b4eb8f7718012c74e0fc99045305
-    assemblyName: Assembly-CSharp.dll
-    namespaceName: FlatKit
-    className: CameraMouseOrbit
   - hash:
       serializedVersion: 2
       Hash: d7f7bc402888d42a0dbb080693e6863c
@@ -1463,28 +1326,10 @@ ScriptsOnlyBuild:
     className: ScoreHelper
   - hash:
       serializedVersion: 2
-      Hash: a87a97409e64472d5ee2f2d6ebf659e9
-    assemblyName: Assembly-CSharp.dll
-    namespaceName: 
-    className: AudioController
-  - hash:
-      serializedVersion: 2
-      Hash: c50f34d71453380a100b36789924740c
-    assemblyName: Assembly-CSharp.dll
-    namespaceName: FlatKit
-    className: OutlineImageEffect
-  - hash:
-      serializedVersion: 2
       Hash: e80cf4684910fdd7f091d85a19a93603
     assemblyName: PhotonUnityNetworking.Demos.dll
     namespaceName: Photon.Pun.Demo.SlotRacer
     className: SlotLanes
-  - hash:
-      serializedVersion: 2
-      Hash: de6cf3ba7095ee435709ee8c2e417dd7
-    assemblyName: Assembly-CSharp.dll
-    namespaceName: FlatKit
-    className: UvScroller
   - hash:
       serializedVersion: 2
       Hash: e7f4e9cb5468a346609dfdb36da26dcc
@@ -1571,7 +1416,7 @@ ScriptsOnlyBuild:
     className: OnStartDelete
   - hash:
       serializedVersion: 2
-      Hash: 1a75af61c46c60c68b3c7514bb21bc92
+      Hash: 71bb6a6b6c8f052f948db64c7dd3ca4f
     assemblyName: Assembly-CSharp.dll
     namespaceName: 
     className: WaterPutOutChick
@@ -1593,12 +1438,6 @@ ScriptsOnlyBuild:
     assemblyName: Unity.Timeline.dll
     namespaceName: UnityEngine.Timeline
     className: MarkerTrack
-  - hash:
-      serializedVersion: 2
-      Hash: 061d1ee1eb28e18f85393c6dae396d01
-    assemblyName: Assembly-CSharp.dll
-    namespaceName: Kayac.VisualArts
-    className: Kamakura2DParams
   - hash:
       serializedVersion: 2
       Hash: d791aa6007fa3640be1164ea75bb087d
@@ -1653,12 +1492,6 @@ ScriptsOnlyBuild:
     assemblyName: PhotonUnityNetworking.Demos.dll
     namespaceName: Photon.Pun.Demo.SlotRacer.Utils
     className: SplinePosition
-  - hash:
-      serializedVersion: 2
-      Hash: 71bb6a6b6c8f052f948db64c7dd3ca4f
-    assemblyName: Assembly-CSharp.dll
-    namespaceName: Kayac.VisualArts
-    className: CubeColorLocalSpaceRoot
   - hash:
       serializedVersion: 2
       Hash: a2612813f45d0ced02c3e4bc9dbea8b4
@@ -1869,18 +1702,11 @@ ScriptsOnlyBuild:
     assemblyName: Unity.Timeline.dll
     namespaceName: UnityEngine.Timeline
     className: PlayableTrack
-  - hash:
-      serializedVersion: 2
-      Hash: 717d5f4a1848e63fdcea4b69b087f51a
-    assemblyName: Assembly-CSharp.dll
-    namespaceName: 
-    className: HostController
   platform: 19
   scenePathNames:
-  - Assets/Scenes/HostScene.unity
   - Assets/Scenes/PhotonTest.unity
   - Assets/Scenes/MultiplayerScene.unity
   - Assets/Scenes/BarnScene.unity
   - Assets/Scenes/ChickScene.unity
   - Assets/Scenes/FarmerScene.unity
-  playerPath: C:/Users/etc-student/Perforce/demorale_desktop_ws/etc/courses/2020_semester_3/bvw/round5/team41/working/HotChickPhoton/HostBuild/HotChickPhoton.exe
+  playerPath: C:/Users/etc-student/Perforce/demorale_desktop_ws/etc/courses/2020_semester_3/bvw/round5/team41/interim/FourPersonTest/HotChickPhoton.exe

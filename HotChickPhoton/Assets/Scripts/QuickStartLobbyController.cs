@@ -24,7 +24,7 @@ public class QuickStartLobbyController : MonoBehaviourPunCallbacks
         quickStartButton.SetActive(false);
     }
     public override void OnConnectedToMaster(){
-    	PhotonNetwork.AutomaticallySyncScene = false; 
+    	PhotonNetwork.AutomaticallySyncScene = true; 
     	//quickStartButton.SetActive(true);
         //quickCancelButton.SetActive(false);
     	connectedToMaster = true;
