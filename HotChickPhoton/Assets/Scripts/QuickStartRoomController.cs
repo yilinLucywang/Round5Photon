@@ -59,7 +59,7 @@ public class QuickStartRoomController : MonoBehaviourPunCallbacks, IInRoomCallba
     	skipVideo = true;
 		if (skipVideo)
 		{
-			if (PhotonNetwork.IsMasterClient) PhotonNetwork.LoadLevel(MultiplayerSettings.multiplayerSettings.multiplayerScene);
+			//if (PhotonNetwork.IsMasterClient) PhotonNetwork.LoadLevel(MultiplayerSettings.multiplayerSettings.multiplayerScene);
 		}
 		else
 		{
@@ -70,7 +70,7 @@ public class QuickStartRoomController : MonoBehaviourPunCallbacks, IInRoomCallba
 
  	private void EndReached(UnityEngine.Video.VideoPlayer startAnim)
     {
-    	if( PhotonNetwork.IsMasterClient ) PhotonNetwork.LoadLevel(MultiplayerSettings.multiplayerSettings.multiplayerScene);
+    	//if( PhotonNetwork.IsMasterClient ) PhotonNetwork.LoadLevel(MultiplayerSettings.multiplayerSettings.multiplayerScene);
     }
 
 	public override void OnEnable(){
@@ -99,15 +99,6 @@ public class QuickStartRoomController : MonoBehaviourPunCallbacks, IInRoomCallba
 		GameObject.Find("PhotonText").GetComponent<Text>().text = playersInRoom.ToString() + " / " + MultiplayerSettings.multiplayerSettings.maxPlayers.ToString();
 		if(playersInRoom > 1){
 			readyToCount = true;
-		}
-		if(playersInRoom == MultiplayerSettings.multiplayerSettings.maxPlayers){
-			readyToStart = true; 
-			if(!PhotonNetwork.IsMasterClient){
-				return;
-			}
-			else{
-				PhotonNetwork.CurrentRoom.IsOpen = false; 
-			}
 		}
 	}
 
@@ -155,20 +146,22 @@ public class QuickStartRoomController : MonoBehaviourPunCallbacks, IInRoomCallba
 		if(playersInRoom >= 1){
 			//readyToCount = true;
 		}
-		if(playersInRoom == MultiplayerSettings.multiplayerSettings.maxPlayers){
-			readyToStart = true; 
-			if(!PhotonNetwork.IsMasterClient){
-				return;
-			}
-			else{
-				PhotonNetwork.CurrentRoom.IsOpen = false; 
-			}
-		}
 	}
 
 	void Update()
 	{
-		if(playersInRoom < MultiplayerSettings.multiplayerSettings.maxPlayers)
+		if (!isGameLoaded)
+		{
+			if (readyToStart)
+			{
+				StartGame();
+			}
+		}
+
+
+
+
+		/*if(playersInRoom < MultiplayerSettings.multiplayerSettings.maxPlayers)
 		{
 			RestartTimer();
 		}
@@ -187,7 +180,7 @@ public class QuickStartRoomController : MonoBehaviourPunCallbacks, IInRoomCallba
 				//LOAD THE VIDEO HERE
 				StartGame();
 			}
-		}
+		}*/
 
 
 	}
@@ -204,12 +197,16 @@ public class QuickStartRoomController : MonoBehaviourPunCallbacks, IInRoomCallba
 		Debug.Log(PhotonNetwork.IsMasterClient);
 		PhotonNetwork.CurrentRoom.IsOpen = false;
 
+		if (myNumberInRoom == 1)
+		{
+			// I am the host spectator.
 
-		if (PhotonNetwork.IsMasterClient)
+			gameObject.AddComponent<HostController>();
+		}
+		else if (myNumberInRoom == 2)
 		{
 			// I am the farmer.
 
-			//SceneManager.LoadScene("FarmerScene");
 			gameObject.AddComponent<FarmerController>();
 		}
 		else
@@ -217,7 +214,7 @@ public class QuickStartRoomController : MonoBehaviourPunCallbacks, IInRoomCallba
 			// I am a chick.
 			//SceneManager.LoadScene("ChickScene");
 			ChickController chickController = gameObject.AddComponent<ChickController>();
-			chickController.myChickNumber = myNumberInRoom - 2;
+			chickController.myChickNumber = myNumberInRoom - 3;
 		}
 
 		SceneManager.LoadScene("BarnScene");
@@ -291,4 +288,16 @@ public class QuickStartRoomController : MonoBehaviourPunCallbacks, IInRoomCallba
 			//PlayerOne.SetText(true);
         }*/
 	}
+
+	[PunRPC]
+	private void CanStartGame() 
+	{
+		readyToStart = true;
+	}
+
+	public void SendStartGame() 
+	{
+		photonView.RPC("CanStartGame", RpcTarget.All);
+	}
+
 }
