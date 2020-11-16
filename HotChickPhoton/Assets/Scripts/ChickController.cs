@@ -35,8 +35,8 @@ public class ChickController : MonoBehaviour
     GameObject farmerObject;
     ParticleSystem waterParticleSystem;
 
-    public float moveSpeed = 4;
-    public float rotationSpeed = 1.2f;
+    public float moveSpeed = 7.5f;
+    public float rotationSpeed = 1.5f;
 
     int frameCounter = 0;
 

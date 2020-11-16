@@ -168,23 +168,11 @@ public class QuickStartRoomController : MonoBehaviourPunCallbacks, IInRoomCallba
 
 	void Update()
 	{
-		if(playersInRoom < MultiplayerSettings.multiplayerSettings.maxPlayers)
-		{
-			RestartTimer();
-		}
 
-		if(!isGameLoaded){
-			if(readyToStart){
-				atMaxPlayer -= Time.deltaTime; 
-				lessThanMaxPlayers = atMaxPlayer; 
-				timeToStart = atMaxPlayer;
-			}
-			else if(readyToCount){
-				lessThanMaxPlayers -= Time.deltaTime; 
-				timeToStart = lessThanMaxPlayers; 
-			}
-			if(timeToStart <= 0){
-				//LOAD THE VIDEO HERE
+		if(!isGameLoaded)
+		{
+			if(readyToStart)
+			{
 				StartGame();
 			}
 		}
@@ -205,7 +193,14 @@ public class QuickStartRoomController : MonoBehaviourPunCallbacks, IInRoomCallba
 		PhotonNetwork.CurrentRoom.IsOpen = false;
 
 
-		if (PhotonNetwork.IsMasterClient)
+		if (myNumberInRoom == 1)
+		{
+			// I am the host.
+
+			//SceneManager.LoadScene("FarmerScene");
+			gameObject.AddComponent<HostController>();
+		}
+		else if (myNumberInRoom == 2)
 		{
 			// I am the farmer.
 
@@ -217,7 +212,7 @@ public class QuickStartRoomController : MonoBehaviourPunCallbacks, IInRoomCallba
 			// I am a chick.
 			//SceneManager.LoadScene("ChickScene");
 			ChickController chickController = gameObject.AddComponent<ChickController>();
-			chickController.myChickNumber = myNumberInRoom - 2;
+			chickController.myChickNumber = myNumberInRoom - 3;
 		}
 
 		SceneManager.LoadScene("BarnScene");
@@ -291,4 +286,16 @@ public class QuickStartRoomController : MonoBehaviourPunCallbacks, IInRoomCallba
 			//PlayerOne.SetText(true);
         }*/
 	}
+
+	public void SendStartGame() 
+	{
+		photonView.RPC("CanStartGame", RpcTarget.All);
+	}
+
+	[PunRPC]
+	private void CanStartGame() 
+	{
+		readyToStart = true;
+	}
+
 }

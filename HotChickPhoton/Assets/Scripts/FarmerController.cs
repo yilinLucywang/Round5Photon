@@ -32,8 +32,8 @@ public class FarmerController : MonoBehaviour
     int pvID;
 
 
-    public float moveSpeed = 3.5f;
-    public float rotationSpeed = 1.2f;
+    public float moveSpeed = 5.5f;
+    public float rotationSpeed = 1.3f;
 
     int frameCounter = 0;
 

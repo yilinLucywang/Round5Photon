@@ -1,12 +1,14 @@
 ScriptsOnlyBuild:
   usedScripts:
     Assembly-CSharp.dll:
+    - AlwaysFaceUp
     - AudioController
     - CameraFollowChick
     - ChickAI
     - ChickColliderController
     - ChickController
     - ChickStorage
+    - DestructionController
     - FarmerController
     - LoadBarnScene
     - MultiplayerSettings
@@ -37,8 +39,10 @@ ScriptsOnlyBuild:
     UnityEditor.Graphs.dll:
     - UnityEditor.Graphs.AnimationBlendTree.Graph
     - UnityEditor.Graphs.AnimationBlendTree.GraphGUI
+    - UnityEditor.Graphs.AnimationStateMachine.AnyStateNode
     - UnityEditor.Graphs.AnimationStateMachine.Graph
     - UnityEditor.Graphs.AnimationStateMachine.GraphGUI
+    - UnityEditor.Graphs.AnimationStateMachine.StateNode
     - UnityEditor.Graphs.AnimatorControllerTool
     UnityEditor.TestRunner.dll:
     - UnityEditor.TestTools.TestRunner.Api.CallbacksHolder
@@ -77,13 +81,23 @@ ScriptsOnlyBuild:
       Script: {instanceID: 0}
     - Class: 54
       Script: {instanceID: 0}
+    - Class: 59
+      Script: {instanceID: 0}
+    - Class: 64
+      Script: {instanceID: 0}
     - Class: 65
+      Script: {instanceID: 0}
+    - Class: 74
       Script: {instanceID: 0}
     - Class: 81
       Script: {instanceID: 0}
     - Class: 82
       Script: {instanceID: 0}
     - Class: 83
+      Script: {instanceID: 0}
+    - Class: 91
+      Script: {instanceID: 0}
+    - Class: 95
       Script: {instanceID: 0}
     - Class: 104
       Script: {instanceID: 0}
@@ -101,11 +115,17 @@ ScriptsOnlyBuild:
       Script: {instanceID: 13880}
     - Class: 114
       Script: {instanceID: 17228}
+    - Class: 114
+      Script: {instanceID: 188338}
+    - Class: 114
+      Script: {instanceID: 188398}
     - Class: 115
       Script: {instanceID: 0}
     - Class: 135
       Script: {instanceID: 0}
     - Class: 136
+      Script: {instanceID: 0}
+    - Class: 137
       Script: {instanceID: 0}
     - Class: 157
       Script: {instanceID: 0}
@@ -1797,6 +1817,66 @@ ScriptsOnlyBuild:
     assemblyName: Assembly-CSharp.dll
     namespaceName: 
     className: ChickAI
+  - hash:
+      serializedVersion: 2
+      Hash: 8860633d29a22ff64e02e18da3716cdf
+    assemblyName: Assembly-CSharp.dll
+    namespaceName: UnityTemplateProjects
+    className: SimpleCameraController
+  - hash:
+      serializedVersion: 2
+      Hash: 71bb6a6b6c8f052f948db64c7dd3ca4f
+    assemblyName: Assembly-CSharp.dll
+    namespaceName: 
+    className: SwipeController
+  - hash:
+      serializedVersion: 2
+      Hash: 4c92f5523ecd583e8e9b05c08f384059
+    assemblyName: Assembly-CSharp.dll
+    namespaceName: 
+    className: SampleSceneController
+  - hash:
+      serializedVersion: 2
+      Hash: 27ba96c57016db921450d054d19563d3
+    assemblyName: Assembly-CSharp.dll
+    namespaceName: Kayac.VisualArts
+    className: LocalLight
+  - hash:
+      serializedVersion: 2
+      Hash: 58e68364412c67eae2bdb4954be2dcc2
+    assemblyName: Assembly-CSharp.dll
+    namespaceName: 
+    className: Readme
+  - hash:
+      serializedVersion: 2
+      Hash: 04ac018a3cc9affaab74d70a0e6cfaa2
+    assemblyName: Assembly-CSharp.dll
+    namespaceName: Kayac.VisualArts
+    className: KamakuraRampTexture
+  - hash:
+      serializedVersion: 2
+      Hash: 061d1ee1eb28e18f85393c6dae396d01
+    assemblyName: Assembly-CSharp.dll
+    namespaceName: Kayac.VisualArts
+    className: Kamakura2DParams
+  - hash:
+      serializedVersion: 2
+      Hash: 71bb6a6b6c8f052f948db64c7dd3ca4f
+    assemblyName: Assembly-CSharp.dll
+    namespaceName: Kayac.VisualArts
+    className: CubeColorLocalSpaceRoot
+  - hash:
+      serializedVersion: 2
+      Hash: d95232abe0b47acf195f05f88a04d203
+    assemblyName: Assembly-CSharp.dll
+    namespaceName: 
+    className: DestructionController
+  - hash:
+      serializedVersion: 2
+      Hash: 71bb6a6b6c8f052f948db64c7dd3ca4f
+    assemblyName: Assembly-CSharp.dll
+    namespaceName: 
+    className: AlwaysFaceUp
   platform: 19
   scenePathNames:
   - Assets/Scenes/HostScene.unity
