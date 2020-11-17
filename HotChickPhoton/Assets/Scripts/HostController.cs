@@ -4,6 +4,7 @@ using System;
 using UnityEngine;
 using Photon.Pun;
 using System.Linq;
+using UnityEngine.UI;
 
 public class HostController : MonoBehaviour
 {
@@ -137,8 +138,9 @@ public class HostController : MonoBehaviour
     }
 
     [PunRPC]
-    public void UpdateFarmer(Vector3 chickPosition, Quaternion chickRotation)
+    public void UpdateFarmer(Vector3 chickPosition, Quaternion chickRotation, string FarmerName)
     {
+        GameObject.Find("FarmerName").GetComponent<Text>().text = FarmerName;
         StartCoroutine(UpdateFarmerLerp(chickPosition, chickRotation));
     }
 

@@ -4,6 +4,7 @@ using System;
 using UnityEngine;
 using Photon.Pun;
 using System.Linq;
+using UnityEngine.UI;
 
 public class FarmerController : MonoBehaviour
 {
@@ -154,13 +155,19 @@ public class FarmerController : MonoBehaviour
 
     void SendFarmerMovement()
     {
-        photonView.RPC("UpdateFarmer", RpcTarget.Others, myFarmerObject.transform.position, myFarmerObject.transform.rotation);
+        GameObject.Find("FarmerName").GetComponent<Text>().text = PhotonNetwork.NickName;
+        photonView.RPC("UpdateFarmer", RpcTarget.Others, myFarmerObject.transform.position, myFarmerObject.transform.rotation, PhotonNetwork.NickName);
     }
 
     [PunRPC]
-    public void UpdateChick(string chickName, Vector3 chickPosition, Quaternion chickRotation)
+    public void UpdateChick(string chickName, Vector3 chickPosition, Quaternion chickRotation, string chickNameToUpdate)
     {
         Debug.Log("Updating chick " + chickName);
+        if(chickNameToUpdate != null){
+            int chickIndex = allChicks.Select((chick, index) => chick.name == chickName ? index : -1).Where(index => index != -1).ToArray()[0];
+            GameObject chickToTag = allChickObjects[chickIndex];
+            chickToTag.transform.GetChild(0).GetChild(3).GetChild(0).GetComponent<Text>().text = chickNameToUpdate;
+        }
         StartCoroutine(UpdateChickLerp(chickName, chickPosition, chickRotation));
     }
 

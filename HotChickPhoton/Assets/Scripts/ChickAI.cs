@@ -53,7 +53,7 @@ public class ChickAI : MonoBehaviour
 
     public void SendChickMovement()
     {
-        photonView.RPC("UpdateChick", RpcTarget.Others, transform.parent.name, transform.position, transform.rotation);
+        photonView.RPC("UpdateChick", RpcTarget.Others, transform.parent.name, transform.position, transform.rotation, "ChickBot");
     }
 
 }
