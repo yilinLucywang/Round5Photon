@@ -110,8 +110,13 @@ public class HostController : MonoBehaviour
     }
 
     [PunRPC]
-    public void UpdateChick(string chickName, Vector3 chickPosition, Quaternion chickRotation)
+    public void UpdateChick(string chickName, Vector3 chickPosition, Quaternion chickRotation, string chickNameToUpdate)
     {
+        if(chickNameToUpdate != null){
+            int chickIndex = allChicks.Select((chick, index) => chick.name == chickName ? index : -1).Where(index => index != -1).ToArray()[0];
+            GameObject chickToTag = allChickObjects[chickIndex];
+            chickToTag.transform.GetChild(0).GetChild(3).GetChild(0).GetComponent<Text>().text = chickNameToUpdate;
+        }
         StartCoroutine(UpdateChickLerp(chickName, chickPosition, chickRotation));
     }
 
