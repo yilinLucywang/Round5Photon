@@ -16,7 +16,7 @@ public class FarmerController : MonoBehaviour
     }
 
     int waterLeft;
-    int maxWater = 3;
+    int maxWater = 5;
     int splashingWater = 0;
     int maxSplashingWater = 60;
 
@@ -32,7 +32,7 @@ public class FarmerController : MonoBehaviour
     int pvID;
 
 
-    public float moveSpeed = 5.5f;
+    public float moveSpeed = 6.5f;
     public float rotationSpeed = 1.3f;
 
     int frameCounter = 0;
@@ -137,7 +137,8 @@ public class FarmerController : MonoBehaviour
 
     void MoveFarmer()
     {
-        if (splashingWater == 0)
+        // This was annoying to play as the farmer, so I removed it. Still works, though.
+        /*if (splashingWater == 0)
         {
             myFarmerObject.transform.RotateAround(myFarmerObject.transform.position, myFarmerObject.transform.up, Input.GetAxis("Mouse X") * rotationSpeed);
             rb.velocity = myFarmerObject.transform.forward * moveSpeed;
@@ -145,7 +146,10 @@ public class FarmerController : MonoBehaviour
         else
         {
             rb.velocity = Vector3.zero;
-        }
+        }*/
+
+        myFarmerObject.transform.RotateAround(myFarmerObject.transform.position, myFarmerObject.transform.up, Input.GetAxis("Mouse X") * rotationSpeed);
+        rb.velocity = myFarmerObject.transform.forward * moveSpeed;
     }
 
     void SendFarmerMovement()

@@ -1070,7 +1070,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 5561349426305759274, guid: bdb8a0e43a3eba24b8fcd68bf58bb25c, type: 3}
+  - {fileID: 2100000, guid: 25b5a57f56cd48849b51b306cb94d27b, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -1151,7 +1151,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 5561349426305759274, guid: bdb8a0e43a3eba24b8fcd68bf58bb25c, type: 3}
+  - {fileID: 2100000, guid: 25b5a57f56cd48849b51b306cb94d27b, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -1896,7 +1896,7 @@ PrefabInstance:
     - target: {fileID: 1224711779199399084, guid: 817b774b36ec8e04cbd1e47978f5112a, type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
-      objectReference: {fileID: 2100000, guid: 5bfec46d1e9e8554d9bacce52ae70b01, type: 2}
+      objectReference: {fileID: 2100000, guid: 525d2e6e208cc3e418f1d748ecd7a763, type: 2}
     - target: {fileID: 1224711779199399085, guid: 817b774b36ec8e04cbd1e47978f5112a, type: 3}
       propertyPath: m_Name
       value: Fire_PS_cute

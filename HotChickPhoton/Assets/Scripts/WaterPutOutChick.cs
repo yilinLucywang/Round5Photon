@@ -54,11 +54,11 @@ public class WaterPutOutChick : MonoBehaviour
         transform.parent = null;
 
         waterSpray.Play();
-        yield return new WaitForSeconds(0.25f);
+        yield return new WaitForSeconds(0.2f);
 
         waterCollider.enabled = true;
 
-        yield return new WaitForSeconds(1);
+        yield return new WaitForSeconds(0.55f);
 
         waterCollider.enabled = false;
 

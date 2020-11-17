@@ -29,7 +29,7 @@ public class ChickColliderController : MonoBehaviour
         if (other.tag == "ChickCollider" && lightUpTimeLeft == 0)
         {
             bool onFire = transform.GetChild(1).gameObject.activeInHierarchy;
-            bool otherOnFire = other.transform.parent.gameObject.activeInHierarchy;
+            bool otherOnFire = other.transform.GetChild(1).gameObject.activeInHierarchy;
 
             if (onFire && !otherOnFire)
             {

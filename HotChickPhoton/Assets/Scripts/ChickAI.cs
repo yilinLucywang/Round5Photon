@@ -11,6 +11,7 @@ public class ChickAI : MonoBehaviour
     Rigidbody rb;
 
     float moveSpeed = 7.5f;
+    int timeSinceLastTurn = 0;
 
     // Start is called before the first frame update
     void Start()
@@ -36,7 +37,17 @@ public class ChickAI : MonoBehaviour
 
     void MoveChick()
     {
-        transform.RotateAround(transform.position, transform.up, Random.Range(-1.0f, 1.0f));
+        bool shouldTurn = Random.Range(0, 90 - timeSinceLastTurn) == 0;
+        if (shouldTurn)
+        {
+            timeSinceLastTurn = 0;
+            transform.eulerAngles = new Vector3(transform.eulerAngles.x, Random.Range(0.0f, 360.0f), transform.eulerAngles.z);
+        }
+        else 
+        {
+            timeSinceLastTurn++;
+        }
+
         rb.velocity = transform.forward * moveSpeed;
     }
 
