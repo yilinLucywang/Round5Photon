@@ -13,9 +13,6 @@ public class WaterPutOutChick : MonoBehaviour
 
     public bool isSpigot = true;
 
-    int putOutTimer = 10;
-    int putOutTimeLeft = 0;
-
     private void Start()
     {
         photonView = GameObject.Find("QuickStartRoomController").GetComponent<PhotonView>();
@@ -27,10 +24,6 @@ public class WaterPutOutChick : MonoBehaviour
 
     private void Update()
     {
-        if (putOutTimeLeft > 0)
-        {
-            putOutTimeLeft--;
-        }
 
     }
 
@@ -73,9 +66,8 @@ public class WaterPutOutChick : MonoBehaviour
 
     private void OnTriggerStay(Collider other)
     {
-        if (other.tag == "ChickCollider" && putOutTimeLeft == 0) 
+        if (other.tag == "ChickCollider" && other.transform.GetChild(1).gameObject.activeInHierarchy) 
         {
-            putOutTimeLeft = putOutTimer;
             photonView.RPC("PutOutChick", RpcTarget.All, other.transform.parent.name);
         }
 

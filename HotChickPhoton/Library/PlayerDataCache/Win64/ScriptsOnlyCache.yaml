@@ -27,8 +27,6 @@ ScriptsOnlyBuild:
     - Photon.Pun.Demo.PunBasics.PlayerUI
     - Photon.Pun.Demo.SlotRacer.PlayerControl
     - Photon.Pun.Demo.SlotRacer.Utils.SplineWalker
-    PhotonUnityNetworking.Editor.dll:
-    - Photon.Pun.PunSceneSettings
     PhotonUnityNetworking.dll:
     - Photon.Pun.PhotonAnimatorView
     - Photon.Pun.PhotonRigidbodyView
@@ -1910,4 +1908,4 @@ ScriptsOnlyBuild:
   - Assets/Scenes/FarmerScene.unity
   - Assets/Scenes/MultiplayerScene.unity
   - Assets/Scenes/HostScene.unity
-  playerPath: C:/Users/etc-student/Documents/GitHub/Round5Photon/HotChickPhoton/Build/HotChickPhoton.exe
+  playerPath: C:/Users/etc-student/Perforce/demorale_desktop_ws/etc/courses/2020_semester_3/bvw/round5/team41/interim/Team41_Interim/HotChickPhoton.exe

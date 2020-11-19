@@ -111,6 +111,7 @@ public class FarmerController : MonoBehaviour
     public void FillBucket()
     {
         waterLeft = maxWater;
+        bucketWater.transform.localPosition = bucketWaterLocalPositions[waterLeft];
     }
 
     void ClaimFarmer()
@@ -168,7 +169,7 @@ public class FarmerController : MonoBehaviour
         }*/
 
         myFarmerObject.transform.RotateAround(myFarmerObject.transform.position, myFarmerObject.transform.up, Input.GetAxis("Mouse X") * rotationSpeed);
-        rb.velocity = myFarmerObject.transform.forward * Input.GetAxis("Vertical") + myFarmerObject.transform.right * Input.GetAxis("Horizontal");
+        rb.velocity = (myFarmerObject.transform.forward * Input.GetAxis("Vertical") + myFarmerObject.transform.right * Input.GetAxis("Horizontal")) * moveSpeed;
     }
 
     bool sentName = false;

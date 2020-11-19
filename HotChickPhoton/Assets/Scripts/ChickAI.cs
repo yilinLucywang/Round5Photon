@@ -37,7 +37,7 @@ public class ChickAI : MonoBehaviour
 
     void MoveChick()
     {
-        bool shouldTurn = Random.Range(0, 90 - timeSinceLastTurn) == 0;
+        bool shouldTurn = Random.Range(0, 150 - timeSinceLastTurn) == 0;
         if (shouldTurn)
         {
             timeSinceLastTurn = 0;

@@ -137,7 +137,7 @@ public class ChickController : MonoBehaviour
     void MoveChick()
     {
         myChickObject.transform.RotateAround(myChickObject.transform.position, myChickObject.transform.up, Input.GetAxis("Mouse X") * rotationSpeed);
-        rb.velocity = myChickObject.transform.forward * moveSpeed;
+        rb.velocity = (myChickObject.transform.forward * Input.GetAxis("Vertical") + myChickObject.transform.right * Input.GetAxis("Horizontal")) * (onFire ? moveSpeed : moveSpeed * 0.75f);
     }
 
     bool sentName = false;

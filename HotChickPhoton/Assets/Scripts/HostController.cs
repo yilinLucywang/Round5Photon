@@ -77,14 +77,13 @@ public class HostController : MonoBehaviour
     {
         allChicks = GameObject.FindGameObjectsWithTag("Chick");
         Array.Sort(allChicks, new ChickCompare());
-        allChickObjects = allChicks.Select(chickParent => chickParent.transform.GetChild(0).gameObject).ToArray();
 
         if (allChicks.Length == 0)
         {
             return;
         }
 
-
+        allChickObjects = allChicks.Select(chickParent => chickParent.transform.GetChild(0).gameObject).ToArray();
 
         farmerParent = GameObject.FindGameObjectWithTag("Farmer");
         farmerObject = farmerParent.transform.GetChild(0).gameObject;
