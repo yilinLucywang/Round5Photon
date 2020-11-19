@@ -12,8 +12,8 @@ public class DestructionController : MonoBehaviour
     float timeLeft;
 
     bool isLighting = false;
-    float flammingTime = 30; 
-    float flammingTimeLeft;
+    float flamingTime = 10; 
+    float flamingTimeLeft;
     int lighterCount = 0;
 
     // Start is called before the first frame update
@@ -21,7 +21,7 @@ public class DestructionController : MonoBehaviour
     {
         myFire = transform.GetChild(0).gameObject;
         timeLeft = timeToDestruction;
-        flammingTimeLeft = flammingTime;
+        flamingTimeLeft = flamingTime;
     }
 
     // Update is called once per frame
@@ -56,10 +56,14 @@ public class DestructionController : MonoBehaviour
             Destroy(this.gameObject);
         }
 
-        if(isLighting){
-            flammingTimeLeft -= Time.deltaTime;
-            if(flammingTimeLeft < 0){
-                flammingTimeLeft = 0;
+        if(isLighting)
+        {
+            flamingTimeLeft -= Time.deltaTime * lighterCount;
+            if(flamingTimeLeft <= 0)
+            {
+                onFire = true;
+                isLighting = false;
+                flamingTimeLeft = flamingTime;
             }
         }
 
@@ -70,10 +74,8 @@ public class DestructionController : MonoBehaviour
         // flaming chick
         if (other.tag == "ChickCollider" && other.transform.GetChild(1).gameObject.activeInHierarchy)
         {
-            //onFire = true;
             isLighting = true;
             lighterCount += 1;
-            //flammingTimeLeft = flammingTime;
         }
 
         // gets put out
@@ -84,20 +86,15 @@ public class DestructionController : MonoBehaviour
         }
     }
 
-    private void OnTriggerStay(Collider other){
-        if(other.tag == "ChickCollider" && isLighting == true){
-            if(flammingTimeLeft <= 0){
-                onFire = true;
-            }
-        }
-    }
-
-    private void OnTriggerExit(Collider other){
-        if(other.tag == "ChickCollider" && other.transform.GetChild(1).gameObject.activeInHierarchy ){
+    private void OnTriggerExit(Collider other)
+    {
+        if(other.tag == "ChickCollider" && other.transform.GetChild(1).gameObject.activeInHierarchy)
+        {
             lighterCount = lighterCount - 1; 
-            if(lighterCount <= 0){
+            if(lighterCount <= 0)
+            {
                 isLighting = false;
-                flammingTimeLeft = flammingTime;
+                flamingTimeLeft = flamingTime;
             }
         }
     }

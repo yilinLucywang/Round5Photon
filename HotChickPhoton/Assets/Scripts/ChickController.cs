@@ -35,6 +35,7 @@ public class ChickController : MonoBehaviour
 
     GameObject farmerObject;
     ParticleSystem waterParticleSystem;
+    Collider waterCol;
 
     public float moveSpeed = 7.5f;
     public float rotationSpeed = 1.5f;
@@ -96,6 +97,7 @@ public class ChickController : MonoBehaviour
         farmerObject.GetComponent<Rigidbody>().isKinematic = true;
 
         waterParticleSystem = farmerObject.transform.GetChild(1).GetChild(0).GetComponent<ParticleSystem>();
+        waterCol = waterParticleSystem.transform.parent.GetComponent<Collider>();
 
         ChickStorage chickStorage = GameObject.Find("ChickStorage").GetComponent<ChickStorage>();
 
@@ -126,6 +128,8 @@ public class ChickController : MonoBehaviour
             myCamera.gameObject.SetActive(true);
 
             myChickParent.transform.parent = this.transform;
+
+            myChickObject.transform.GetChild(3).GetChild(0).gameObject.SetActive(false);
         }
 
     }
@@ -136,30 +140,34 @@ public class ChickController : MonoBehaviour
         rb.velocity = myChickObject.transform.forward * moveSpeed;
     }
 
+    bool sentName = false;
     public void SendChickMovement()
     {
-
-        photonView.RPC("UpdateChick", RpcTarget.Others, myChickParent.name, myChickObject.transform.position, myChickObject.transform.rotation, PhotonNetwork.NickName);
+        if (!sentName)
+        {
+            sentName = true;
+            photonView.RPC("UpdateChick", RpcTarget.Others, myChickParent.name, myChickObject.transform.position, myChickObject.transform.rotation, PhotonNetwork.NickName);
+        }
+        else
+        {
+            photonView.RPC("UpdateChick", RpcTarget.Others, myChickParent.name, myChickObject.transform.position, myChickObject.transform.rotation, null);
+        }
     }
 
 
     [PunRPC]
     public void UpdateChick(string chickName, Vector3 chickPosition, Quaternion chickRotation, string chickNameToUpdate)
     {
-        if(chickNameToUpdate != null){
-            int chickIndex = allChicks.Select((chick, index) => chick.name == chickName ? index : -1).Where(index => index != -1).ToArray()[0];
-            //GameObject chickToTag = allChickObjects[chickIndex];
-            //chickToTag.transform.GetChild(0).GetChild(3).GetChild(0).GetComponent<Text>().text = chickNameToUpdate;
-            string objectToFind = (chickIndex + 1).ToString();
-            GameObject.Find(objectToFind).GetComponent<Text>().text = chickNameToUpdate;
-
+        int chickIndex = allChicks.Select((chick, index) => chick.name == chickName ? index : -1).Where(index => index != -1).ToArray()[0];
+        if (chickNameToUpdate != null)
+        {
+            allChickObjects[chickIndex].transform.GetChild(3).GetChild(0).GetComponent<Text>().text = chickNameToUpdate;
         }
-        StartCoroutine(UpdateChickLerp(chickName, chickPosition, chickRotation));
+        StartCoroutine(UpdateChickLerp(chickIndex, chickPosition, chickRotation));
     }
 
-    IEnumerator UpdateChickLerp(string chickName, Vector3 chickPosition, Quaternion chickRotation)
+    IEnumerator UpdateChickLerp(int chickIndex, Vector3 chickPosition, Quaternion chickRotation)
     {
-        int chickIndex = allChicks.Select((chick, index) => chick.name == chickName ? index : -1).Where(index => index != -1).ToArray()[0];
 
         Vector3 startingPosition = allChickObjects[chickIndex].transform.position;
         Quaternion startingRotation = allChickObjects[chickIndex].transform.rotation;
@@ -182,7 +190,10 @@ public class ChickController : MonoBehaviour
     [PunRPC]
     public void UpdateFarmer(Vector3 chickPosition, Quaternion chickRotation, string farmerName)
     {
-        GameObject.Find("FarmerName").GetComponent<Text>().text = farmerName;
+        if (farmerName != null)
+        {
+            GameObject.Find("FarmerName").GetComponent<Text>().text = farmerName;
+        }
         StartCoroutine(UpdateFarmerLerp(chickPosition, chickRotation));
     }
 
@@ -236,10 +247,23 @@ public class ChickController : MonoBehaviour
     [PunRPC]
     public void SyncWater(Vector3 waterPosition, Quaternion waterRotation)
     {
-        waterParticleSystem.transform.position = waterPosition;
-        waterParticleSystem.transform.rotation = waterRotation;
+        waterParticleSystem.transform.parent.position = waterPosition;
+        waterParticleSystem.transform.parent.rotation = waterRotation;
 
         waterParticleSystem.Play();
+
+        StartCoroutine(EnableWaterCollider());
+    }
+
+    IEnumerator EnableWaterCollider() 
+    {
+        yield return new WaitForSeconds(0.2f);
+
+        waterCol.enabled = true;
+
+        yield return new WaitForSeconds(0.55f);
+
+        waterCol.enabled = false;
     }
 
 }

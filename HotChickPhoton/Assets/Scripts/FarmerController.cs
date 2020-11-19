@@ -16,6 +16,10 @@ public class FarmerController : MonoBehaviour
         }
     }
 
+    // TODO: Temporary until we get a water model.
+    GameObject bucketWater;
+    Vector3[] bucketWaterLocalPositions;
+
     int waterLeft;
     int maxWater = 5;
     int splashingWater = 0;
@@ -47,6 +51,16 @@ public class FarmerController : MonoBehaviour
         Cursor.visible = false;
 
         waterLeft = maxWater;
+
+        // TODO: Temporary until we get a water model.
+        bucketWaterLocalPositions = new Vector3[maxWater + 1];
+
+        bucketWaterLocalPositions[5] = new Vector3(0, 0.02f, 0);
+        bucketWaterLocalPositions[4] = new Vector3(0, 0.017f, 0);
+        bucketWaterLocalPositions[3] = new Vector3(0, 0.014f, 0);
+        bucketWaterLocalPositions[2] = new Vector3(0, 0.011f, 0);
+        bucketWaterLocalPositions[1] = new Vector3(0, 0.008f, 0);
+        bucketWaterLocalPositions[0] = new Vector3(0, -100, 0);
     }
 
     // Update is called once per frame
@@ -74,6 +88,7 @@ public class FarmerController : MonoBehaviour
             {
                 waterLeft--;
                 splashingWater = maxSplashingWater;
+                bucketWater.transform.localPosition = bucketWaterLocalPositions[waterLeft];
             }
         }
 
@@ -133,6 +148,9 @@ public class FarmerController : MonoBehaviour
         }
 
 
+        GameObject.Find("FarmerName").GetComponent<Text>().text = PhotonNetwork.NickName;
+        bucketWater = GameObject.Find("BucketWater");
+
 
     }
 
@@ -153,30 +171,33 @@ public class FarmerController : MonoBehaviour
         rb.velocity = myFarmerObject.transform.forward * moveSpeed;
     }
 
+    bool sentName = false;
     void SendFarmerMovement()
     {
-        GameObject.Find("FarmerName").GetComponent<Text>().text = PhotonNetwork.NickName;
-        photonView.RPC("UpdateFarmer", RpcTarget.Others, myFarmerObject.transform.position, myFarmerObject.transform.rotation, PhotonNetwork.NickName);
+        if (!sentName)
+        {
+            sentName = true;
+            photonView.RPC("UpdateFarmer", RpcTarget.Others, myFarmerObject.transform.position, myFarmerObject.transform.rotation, PhotonNetwork.NickName);
+        }
+        else
+        {
+            photonView.RPC("UpdateFarmer", RpcTarget.Others, myFarmerObject.transform.position, myFarmerObject.transform.rotation, null);
+        }
     }
 
     [PunRPC]
     public void UpdateChick(string chickName, Vector3 chickPosition, Quaternion chickRotation, string chickNameToUpdate)
     {
         Debug.Log("Updating chick " + chickName);
-        if(chickNameToUpdate != null){
-            int chickIndex = allChicks.Select((chick, index) => chick.name == chickName ? index : -1).Where(index => index != -1).ToArray()[0];
-            //GameObject chickToTag = allChickObjects[chickIndex];
-            //chickToTag.transform.GetChild(0).GetChild(3).GetChild(0).GetComponent<Text>().text = chickNameToUpdate;
-            string objectToFind = (chickIndex + 1).ToString();
-            GameObject.Find(objectToFind).GetComponent<Text>().text = chickNameToUpdate;
-
+        int chickIndex = allChicks.Select((chick, index) => chick.name == chickName ? index : -1).Where(index => index != -1).ToArray()[0];
+        if (chickNameToUpdate != null){
+            allChickObjects[chickIndex].transform.GetChild(3).GetChild(0).GetComponent<Text>().text = chickNameToUpdate;
         }
-        StartCoroutine(UpdateChickLerp(chickName, chickPosition, chickRotation));
+        StartCoroutine(UpdateChickLerp(chickIndex, chickPosition, chickRotation));
     }
 
-    IEnumerator UpdateChickLerp(string chickName, Vector3 chickPosition, Quaternion chickRotation)
+    IEnumerator UpdateChickLerp(int chickIndex, Vector3 chickPosition, Quaternion chickRotation)
     {
-        int chickIndex = allChicks.Select((chick, index) => chick.name == chickName ? index : -1).Where(index => index != -1).ToArray()[0];
 
         Vector3 startingPosition = allChickObjects[chickIndex].transform.position;
         Quaternion startingRotation = allChickObjects[chickIndex].transform.rotation;

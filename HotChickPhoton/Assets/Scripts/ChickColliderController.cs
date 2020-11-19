@@ -11,8 +11,8 @@ public class ChickColliderController : MonoBehaviour
     int lightUpTimeLeft = 0;
 
     bool isLighting = false;
-    float flammingTime = 30; 
-    float flammingTimeLeft;
+    float flamingTime = 2; 
+    float flamingTimeLeft;
     int lighterCount = 0;
 
     bool onFire = false;
@@ -21,21 +21,26 @@ public class ChickColliderController : MonoBehaviour
     private void Start()
     {
         photonView = GameObject.Find("QuickStartRoomController").GetComponent<PhotonView>();
+
+        onFire = transform.GetChild(1).gameObject.activeInHierarchy;
     }
 
     private void Update()
     {
 
-        if(isLighting){
-            flammingTimeLeft -= Time.deltaTime;
-            if(flammingTimeLeft < 0){
-                flammingTimeLeft = 0;
+        if (isLighting)
+        {
+            flamingTimeLeft -= Time.deltaTime;
+            if(flamingTimeLeft <= 0)
+            {
+                onFire = true;
+                isLighting = false;
+                flamingTimeLeft = flamingTime;
+                lighterCount = 0;
+
+                photonView.RPC("LightChick", RpcTarget.All, transform.parent.gameObject.name);
             }
         }
-        // if (lightUpTimeLeft > 0)
-        // {
-        //     lightUpTimeLeft--;
-        // }
 
     }
 
@@ -44,27 +49,20 @@ public class ChickColliderController : MonoBehaviour
         // flaming chick
         if (other.tag == "ChickCollider" && other.transform.GetChild(1).gameObject.activeInHierarchy)
         {
-            //onFire = true;
             isLighting = true;
             lighterCount += 1;
-            //flammingTimeLeft = flammingTime;
         }
     }
 
-    private void OnTriggerStay(Collider other){
-        if(other.tag == "ChickCollider" && isLighting == true){
-            if(flammingTimeLeft <= 0){
-                photonView.RPC("LightChick", RpcTarget.All, transform.parent.gameObject.name);
-            }
-        }
-    }
-
-    private void OnTriggerExit(Collider other){
-        if(other.tag == "ChickCollider" && other.transform.GetChild(1).gameObject.activeInHierarchy ){
+    private void OnTriggerExit(Collider other)
+    {
+        if(other.tag == "ChickCollider" && other.transform.GetChild(1).gameObject.activeInHierarchy)
+        {
             lighterCount = lighterCount - 1; 
-            if(lighterCount <= 0){
+            if(lighterCount <= 0)
+            {
                 isLighting = false;
-                flammingTimeLeft = flammingTime;
+                flamingTimeLeft = flamingTime;
             }
         }
     }

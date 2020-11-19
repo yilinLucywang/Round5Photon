@@ -93,6 +93,7 @@
     <Compile Include="Assets\Shaders\KamakuraShaders\Scripts\CubeColorLocalSpaceRoot.cs" />
     <Compile Include="Assets\Scripts\DestructionController.cs" />
     <Compile Include="Assets\Scripts\AlwaysFaceUp.cs" />
+    <Compile Include="Assets\Scripts\TextFaceCamera.cs" />
   </ItemGroup>
   <ItemGroup>
      <None Include="Assets\Photon\PhotonLibs\netstandard2.0\Photon3Unity3D.xml" />

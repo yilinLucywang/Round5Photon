@@ -41,6 +41,8 @@ public class WaterPutOutChick : MonoBehaviour
             return false;
         }
 
+        photonView.RPC("SyncWater", RpcTarget.All, transform.parent.position, transform.parent.rotation);
+
         StartCoroutine(SplashWaterCoroutine());
 
         return true;

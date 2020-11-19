@@ -12,6 +12,7 @@ TagManager:
   - CrumblyStructure
   - FlammableObject
   - Water
+  - Camera
   layers:
   - Default
   - TransparentFX
