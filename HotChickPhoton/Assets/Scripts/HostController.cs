@@ -48,6 +48,9 @@ public class HostController : MonoBehaviour
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
 
+        myCamera = gameObject.AddComponent<Camera>();
+        gameObject.AddComponent<AudioListener>();
+        transform.tag = "Camera";
     }
 
     // Update is called once per frame
@@ -94,8 +97,6 @@ public class HostController : MonoBehaviour
 
 
 
-        myCamera = gameObject.AddComponent<Camera>();
-        gameObject.AddComponent<AudioListener>();
 
 
     }

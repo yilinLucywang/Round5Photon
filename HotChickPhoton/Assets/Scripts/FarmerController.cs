@@ -168,7 +168,7 @@ public class FarmerController : MonoBehaviour
         }*/
 
         myFarmerObject.transform.RotateAround(myFarmerObject.transform.position, myFarmerObject.transform.up, Input.GetAxis("Mouse X") * rotationSpeed);
-        rb.velocity = myFarmerObject.transform.forward * moveSpeed;
+        rb.velocity = myFarmerObject.transform.forward * Input.GetAxis("Vertical") + myFarmerObject.transform.right * Input.GetAxis("Horizontal");
     }
 
     bool sentName = false;

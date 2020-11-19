@@ -9,9 +9,6 @@ EditorBuildSettings:
     path: Assets/Scenes/PhotonTest.unity
     guid: c0de61f27c0cf449b8b26dcfd0a026e3
   - enabled: 1
-    path: Assets/Scenes/MultiplayerScene.unity
-    guid: fda2b8784940b437baab356a47f26898
-  - enabled: 1
     path: Assets/Scenes/BarnScene.unity
     guid: d1f278ef8ec31834d82b6c1132fed30d
   - enabled: 1
@@ -20,6 +17,9 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/FarmerScene.unity
     guid: 5b4a0c5e2be23724cae42eed97308353
+  - enabled: 1
+    path: Assets/Scenes/MultiplayerScene.unity
+    guid: fda2b8784940b437baab356a47f26898
   - enabled: 1
     path: Assets/Scenes/HostScene.unity
     guid: 214c8c97a4d6e064a82cfb6c1e32bf99

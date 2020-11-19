@@ -136,8 +136,6 @@ ScriptsOnlyBuild:
       Script: {instanceID: 0}
     - Class: 128
       Script: {instanceID: 0}
-    - Class: 135
-      Script: {instanceID: 0}
     - Class: 136
       Script: {instanceID: 0}
     - Class: 137
@@ -1907,9 +1905,9 @@ ScriptsOnlyBuild:
   platform: 19
   scenePathNames:
   - Assets/Scenes/PhotonTest.unity
-  - Assets/Scenes/MultiplayerScene.unity
   - Assets/Scenes/BarnScene.unity
   - Assets/Scenes/ChickScene.unity
   - Assets/Scenes/FarmerScene.unity
+  - Assets/Scenes/MultiplayerScene.unity
   - Assets/Scenes/HostScene.unity
   playerPath: C:/Users/etc-student/Documents/GitHub/Round5Photon/HotChickPhoton/Build/HotChickPhoton.exe
