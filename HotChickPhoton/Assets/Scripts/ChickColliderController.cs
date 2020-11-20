@@ -15,7 +15,13 @@ public class ChickColliderController : MonoBehaviour
     float flamingTimeLeft;
     int lighterCount = 0;
 
+    float dryingTime = 3;
+    float dryingTimeLeft; 
+
+    bool isDrying = false;
     bool onFire = false;
+    bool isWet = false;
+    bool isPutOut = false;
 
 
     private void Start()
@@ -42,6 +48,23 @@ public class ChickColliderController : MonoBehaviour
             }
         }
 
+        if(isPutOut){
+            photonView.RPC("PutOutChick", RpcTarget.All, transform.parent.gameObject.name);
+            isPutOut = false;
+        }
+
+        if (isWet){
+            if(isDrying){
+                dryingTimeLeft -= Time.deltaTime;
+                if(dryingTimeLeft <= 0){
+                    isWet = false; 
+                    isDrying = false;
+                    dryingTimeLeft = dryingTime;
+                    lighterCount = 0;
+                }
+            }
+        }
+
     }
 
     private void OnTriggerEnter(Collider other)
@@ -49,8 +72,23 @@ public class ChickColliderController : MonoBehaviour
         // flaming chick
         if (other.tag == "ChickCollider" && other.transform.GetChild(1).gameObject.activeInHierarchy)
         {
-            isLighting = true;
-            lighterCount += 1;
+            if(! isWet){
+                isLighting = true;
+                lighterCount += 1;
+            }
+            else if(isWet){
+                isDrying = true; 
+                lighterCount += 1;
+            }
+        }
+        
+        //else if the other chick is wet and current chick is on fire
+        //TODO: change the second condition to wet chick
+        else if(other.tag == "ChickCollider" && other.transform.GetChild(1).gameObject.activeInHierarchy){
+            if(transform.GetChild(1).gameObject.activeInHierarchy){
+                isPutOut = true; 
+                isWet = true;
+            }
         }
     }
 
@@ -61,8 +99,14 @@ public class ChickColliderController : MonoBehaviour
             lighterCount = lighterCount - 1; 
             if(lighterCount <= 0)
             {
-                isLighting = false;
-                flamingTimeLeft = flamingTime;
+                if(! isDrying){
+                    isLighting = false;
+                    flamingTimeLeft = flamingTime;
+                }
+                else{
+                    isDrying = false; 
+                    dryingTimeLeft = dryingTime;
+                }
             }
         }
     }

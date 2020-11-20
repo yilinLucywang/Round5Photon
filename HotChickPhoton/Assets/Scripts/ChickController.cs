@@ -38,9 +38,11 @@ public class ChickController : MonoBehaviour
     Collider waterCol;
 
     public float moveSpeed = 7.5f;
+    public float wetSpeed = 5.0f; 
     public float rotationSpeed = 1.5f;
 
     int frameCounter = 0;
+    private bool isWet = false;
 
 
     // Start is called before the first frame update
@@ -137,11 +139,16 @@ public class ChickController : MonoBehaviour
     void MoveChick()
     {
         myChickObject.transform.RotateAround(myChickObject.transform.position, myChickObject.transform.up, Input.GetAxis("Mouse X") * rotationSpeed);
-        rb.velocity = (myChickObject.transform.forward * Input.GetAxis("Vertical") + myChickObject.transform.right * Input.GetAxis("Horizontal")) * (onFire ? moveSpeed : moveSpeed * 0.75f);
+        if(isWet){
+            rb.velocity = (myChickObject.transform.forward * Input.GetAxis("Vertical") + myChickObject.transform.right * Input.GetAxis("Horizontal"))  * wetSpeed;
+        }
+        else{
+            rb.velocity = (myChickObject.transform.forward * Input.GetAxis("Vertical") + myChickObject.transform.right * Input.GetAxis("Horizontal")) * (onFire ? moveSpeed : moveSpeed * 0.75f);
+        }
     }
 
     bool sentName = false;
-    public void SendChickMovement()
+    public void SendChickMovement() 
     {
         if (!sentName)
         {
@@ -227,6 +234,7 @@ public class ChickController : MonoBehaviour
         if (localChick == myChickObject)
         {
             onFire = false;
+            isWet = true;
         }
     }
 
