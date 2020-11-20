@@ -43,7 +43,6 @@ public class ChickColliderController : MonoBehaviour
                 isLighting = false;
                 flamingTimeLeft = flamingTime;
                 lighterCount = 0;
-
                 photonView.RPC("LightChick", RpcTarget.All, transform.parent.gameObject.name);
             }
         }
@@ -61,6 +60,7 @@ public class ChickColliderController : MonoBehaviour
                     isDrying = false;
                     dryingTimeLeft = dryingTime;
                     lighterCount = 0;
+                    photonView.RPC("DryUpChick", RpcTarget.All, transform.parent.gameObject.name);
                 }
             }
         }
@@ -130,5 +130,10 @@ public class ChickColliderController : MonoBehaviour
     //         }
     //     }
     // }
+    [PunRPC]
+    public void DryUpChick(string remoteChick){
+        GameObject localChick = allChicks.Where(chick => chick.name == remoteChick).ToArray()[0];
+        localChick.transform.GetChild(0).GetChild(4).gameObject.SetActive(false);
+    }
 
 }

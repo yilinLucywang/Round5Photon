@@ -230,13 +230,13 @@ public class ChickController : MonoBehaviour
         GameObject localChick = allChicks.Where(chick => chick.name == remoteChick).ToArray()[0];
 
         localChick.transform.GetChild(0).GetChild(1).gameObject.SetActive(false);
+        //this set the chick to be wet
         localChick.transform.GetChild(0).GetChild(4).gameObject.SetActive(true);
 
         if (localChick == myChickObject)
         {
             onFire = false;
             isWet = true;
-
         }
     }
 
@@ -274,6 +274,13 @@ public class ChickController : MonoBehaviour
         yield return new WaitForSeconds(0.55f);
 
         waterCol.enabled = false;
+    }
+
+    [PunRPC]
+    public void DryUpChick(string remoteChick){
+        GameObject localChick = allChicks.Where(chick => chick.name == remoteChick).ToArray()[0];
+        localChick.transform.GetChild(0).GetChild(4).gameObject.SetActive(false);
+        isWet = false;
     }
 
 }
