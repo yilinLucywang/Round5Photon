@@ -84,7 +84,7 @@ public class ChickColliderController : MonoBehaviour
         
         //else if the other chick is wet and current chick is on fire
         //TODO: change the second condition to wet chick
-        else if(other.tag == "ChickCollider" && other.transform.GetChild(1).gameObject.activeInHierarchy){
+        else if(other.tag == "ChickCollider" && other.transform.GetChild(4).gameObject.activeInHierarchy){
             if(transform.GetChild(1).gameObject.activeInHierarchy){
                 isPutOut = true; 
                 isWet = true;
