@@ -7,10 +7,13 @@ using UnityEngine.SceneManagement;
 using System.IO;
 using UnityEngine.UI;
 using UnityEngine.Video;
+using UnityEngine.EventSystems;
 
 
 public class QuickStartRoomController : MonoBehaviourPunCallbacks, IInRoomCallbacks
 {
+	public GameObject openingImage; 
+	public GameObject buttons;
 	//Room info
 	public static QuickStartRoomController room; 
 	private int multiplayerSceneIndex;
@@ -121,6 +124,12 @@ public class QuickStartRoomController : MonoBehaviourPunCallbacks, IInRoomCallba
 		PhotonNetwork.NickName = nickName; 
 	}
 
+	public void claimChickButton(){
+		Debug.Log("Claimbutton clicked");
+		string buttonName = EventSystem.current.currentSelectedGameObject.name;
+		PV.RPC("ClaimChick", RpcTarget.All, buttonName, nickName);
+	}
+
 	private void Awake(){
 		if(QuickStartRoomController.room == null){
 			QuickStartRoomController.room = this;
@@ -132,6 +141,8 @@ public class QuickStartRoomController : MonoBehaviourPunCallbacks, IInRoomCallba
 			}
 		}
 		DontDestroyOnLoad(this.gameObject);
+		openingImage.SetActive(false);
+		buttons.SetActive(false);
 	}
 
 	void Start(){
@@ -185,6 +196,11 @@ public class QuickStartRoomController : MonoBehaviourPunCallbacks, IInRoomCallba
 		enterButton.SetActive(false);
 	}
 
+	public void startLoadingScene(){
+		SceneManager.LoadScene("BarnScene");
+	}
+
+
 
 	void StartGame(){
 		isGameLoaded = true;
@@ -215,7 +231,10 @@ public class QuickStartRoomController : MonoBehaviourPunCallbacks, IInRoomCallba
 			chickController.myChickNumber = myNumberInRoom - 3;
 		}
 
-		SceneManager.LoadScene("BarnScene");
+		//This load the starting images for everyone
+		PV.RPC("loadStartingImages", RpcTarget.All);
+		// loadOpeningImages();
+		//SceneManager.LoadScene("BarnScene");
 
 		//PV.RPC("RPC_ClearScreen", RpcTarget.All);
 	}
@@ -239,6 +258,41 @@ public class QuickStartRoomController : MonoBehaviourPunCallbacks, IInRoomCallba
 			//Debug.Log("I am here!");
 			//PV.RPC("RPC_CreatePlayer", RpcTarget.All);
 		}
+	}
+
+	void loadOpeningImages(){
+		Debug.Log("loading images");
+		List<Texture> textures = new List<Texture>();
+		textures.Add(Resources.Load<Texture>("later"));
+		textures.Add(Resources.Load<Texture>("OPENING-02"));
+		textures.Add(Resources.Load<Texture>("OPENING-03"));
+		textures.Add(Resources.Load<Texture>("OPENING-04"));
+		textures.Add(Resources.Load<Texture>("OPENING-05"));
+		textures.Add(Resources.Load<Texture>("OPENING-06"));
+		//textures.Add(Resources.Load<Texture>("OPENING-07"));
+		StartCoroutine(LoadImagesSlideBySlide(textures));
+	}
+
+	IEnumerator LoadImagesSlideBySlide(List<Texture> textures){
+		openingImage.SetActive(true);
+		buttons.SetActive(false);
+		Debug.Log("loading images slide by slide");
+		Debug.Log(textures.Count);
+		for(int i = 0; i < textures.Count; i++){
+			openingImage.GetComponent<RawImage>().texture = textures[i];
+			yield return new WaitForSeconds(3.0f);
+		}
+		openingImage.GetComponent<RawImage>().texture = textures[0];
+		buttons.SetActive(true);
+
+		//Only the host and the chick are able to interact with the canvas
+		if(myNumberInRoom != 2){
+			Cursor.visible = true;
+			Screen.lockCursor = false;
+		}
+		
+		//openingImage.SetActive(false);
+		//SceneManager.LoadScene("BarnScene");
 	}
 
 	[PunRPC]
@@ -296,6 +350,16 @@ public class QuickStartRoomController : MonoBehaviourPunCallbacks, IInRoomCallba
 	private void CanStartGame() 
 	{
 		readyToStart = true;
+	}
+
+	[PunRPC]
+	private void ClaimChick(string buttonName, string nickName){
+		GameObject.Find(buttonName).transform.GetChild(0).GetComponent<Text>().text = nickName;
+	}
+
+	[PunRPC]
+	private void loadStartingImages(){
+		loadOpeningImages();
 	}
 
 }
