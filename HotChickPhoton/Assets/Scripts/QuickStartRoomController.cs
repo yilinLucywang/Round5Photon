@@ -197,7 +197,8 @@ public class QuickStartRoomController : MonoBehaviourPunCallbacks, IInRoomCallba
 	}
 
 	public void startLoadingScene(){
-		SceneManager.LoadScene("BarnScene");
+		PV.RPC("loadBarnScene", RpcTarget.All);
+		//SceneManager.LoadScene("BarnScene");
 	}
 
 
@@ -290,7 +291,7 @@ public class QuickStartRoomController : MonoBehaviourPunCallbacks, IInRoomCallba
 			Cursor.visible = true;
 			Screen.lockCursor = false;
 		}
-		
+
 		//openingImage.SetActive(false);
 		//SceneManager.LoadScene("BarnScene");
 	}
@@ -360,6 +361,11 @@ public class QuickStartRoomController : MonoBehaviourPunCallbacks, IInRoomCallba
 	[PunRPC]
 	private void loadStartingImages(){
 		loadOpeningImages();
+	}
+
+	[PunRPC]
+	private void loadBarnScene(){
+		SceneManager.LoadScene("BarnScene");
 	}
 
 }
