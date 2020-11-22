@@ -126,8 +126,10 @@ public class QuickStartRoomController : MonoBehaviourPunCallbacks, IInRoomCallba
 
 	public void claimChickButton(){
 		Debug.Log("Claimbutton clicked");
-		string buttonName = EventSystem.current.currentSelectedGameObject.name;
-		PV.RPC("ClaimChick", RpcTarget.All, buttonName, nickName);
+		if(myNumberInRoom != 2){
+			string buttonName = EventSystem.current.currentSelectedGameObject.name;
+			PV.RPC("ClaimChick", RpcTarget.All, buttonName, nickName);
+		}
 	}
 
 	private void Awake(){
@@ -287,10 +289,8 @@ public class QuickStartRoomController : MonoBehaviourPunCallbacks, IInRoomCallba
 		buttons.SetActive(true);
 
 		//Only the host and the chick are able to interact with the canvas
-		if(myNumberInRoom != 2){
-			Cursor.visible = true;
-			Screen.lockCursor = false;
-		}
+		Cursor.visible = true;
+		Screen.lockCursor = false;
 
 		//openingImage.SetActive(false);
 		//SceneManager.LoadScene("BarnScene");
