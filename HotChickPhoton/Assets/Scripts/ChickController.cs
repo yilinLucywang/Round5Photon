@@ -62,10 +62,10 @@ public class ChickController : MonoBehaviour
         photonView = GameObject.Find("QuickStartRoomController").GetComponent<PhotonView>();
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
-        scoreToNameDics = new Dictionary<string, int>();
+        scoreToNameDic = new Dictionary<string, int>();
         names = new List<string>(); 
         scores = new List<int>();
-
+        hideLeaderBoard();
     }
 
     // Update is called once per frame
@@ -105,7 +105,7 @@ public class ChickController : MonoBehaviour
 
     public void updateCurrentScore(int pointValue){
         totalScore += pointValue;
-        photonView.RPC("UpDateLeaderBoard", PhotonNetwork.NickName, totalScore);
+        photonView.RPC("UpDateLeaderBoard", RpcTarget.All, PhotonNetwork.NickName, totalScore);
     }
 
     void ClaimChick()
@@ -171,9 +171,12 @@ public class ChickController : MonoBehaviour
 
     }
 
-
+    public void hideLeaderBoard(){
+        leaderBoard.SetActive(false);
+    }
     //Here is how the leaderboard displayed in the game
-    private void displayCurLeaderBoard(){
+    public void displayCurLeaderBoard(){
+        leaderBoard.SetActive(true);
         for(int i = 0; i < names.Count; i ++){
             int index = i + 1; 
             leaderBoard.transform.GetChild(index).GetComponent<Text>().text = names[i];
