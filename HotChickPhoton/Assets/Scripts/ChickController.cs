@@ -72,6 +72,7 @@ public class ChickController : MonoBehaviour
         scoreToNameDic = new Dictionary<string, int>();
         names = new List<string>(); 
         scores = new List<int>();
+        leaderBoard = GameObject.Find("LeaderBoard");
         hideLeaderBoard();
     }
 

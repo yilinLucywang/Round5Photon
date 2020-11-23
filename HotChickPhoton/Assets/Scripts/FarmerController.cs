@@ -35,6 +35,7 @@ public class FarmerController : MonoBehaviour
     public static Rigidbody rb;
     public PhotonView photonView;
     int pvID;
+    public GameObject leaderBoard;
 
 
     public float moveSpeed = 6.5f;
@@ -65,6 +66,9 @@ public class FarmerController : MonoBehaviour
         bucketWaterLocalPositions[2] = new Vector3(0, 0.011f, 0);
         bucketWaterLocalPositions[1] = new Vector3(0, 0.008f, 0);
         bucketWaterLocalPositions[0] = new Vector3(0, -100, 0);
+
+        leaderBoard = GameObject.Find("LeaderBoard");
+        leaderBoard.SetActive(false);
     }
 
     // Update is called once per frame
