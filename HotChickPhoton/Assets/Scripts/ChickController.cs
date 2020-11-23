@@ -55,6 +55,7 @@ public class ChickController : MonoBehaviour
     public Dictionary<string, int> scoreToNameDic;
     public List<string> names;
     public List<int> scores;
+    public bool firstUpdate = false;
 
     // Start is called before the first frame update
     void Start()
@@ -107,8 +108,11 @@ public class ChickController : MonoBehaviour
         if(Input.GetKeyUp(KeyCode.Tab)){
             hideLeaderBoard();
         }
-
-        photonView.RPC("UpDateLeaderBoard", RpcTarget.All, PhotonNetwork.NickName, totalScore);
+        
+        //This is the first update of the leaderboard
+        if(!firstUpdate){
+            photonView.RPC("UpDateLeaderBoard", RpcTarget.All, PhotonNetwork.NickName, totalScore);
+        }
 
     }
 
