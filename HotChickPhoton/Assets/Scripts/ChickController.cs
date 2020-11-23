@@ -100,6 +100,15 @@ public class ChickController : MonoBehaviour
             photonView.RPC("BawkAt", RpcTarget.All, myChickObject.transform.position);
         }
 
+        if (Input.GetKeyDown(KeyCode.Tab)){
+            displayCurLeaderBoard();
+        }
+
+        if(Input.GetKeyUp(KeyCode.Tab)){
+            hideLeaderBoard();
+        }
+
+        photonView.RPC("UpDateLeaderBoard", RpcTarget.All, PhotonNetwork.NickName, totalScore);
 
     }
 
@@ -360,6 +369,7 @@ public class ChickController : MonoBehaviour
         }
         //should have the highest value to be the first value
         scores.Sort(); 
+        scores.Reverse();
 
         for(int i = 0; i < scores.Count; i++){
             int curScore = scores[i];
