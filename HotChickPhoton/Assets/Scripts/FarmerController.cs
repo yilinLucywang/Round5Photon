@@ -5,6 +5,7 @@ using UnityEngine;
 using Photon.Pun;
 using System.Linq;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class FarmerController : MonoBehaviour
 {
