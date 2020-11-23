@@ -51,6 +51,10 @@ public class ChickController : MonoBehaviour
     AudioController bawkSound;
 
     public int totalScore = 0;
+    public GameObject leaderBoard;
+    public Dictionary<string, int> scoreToNameDic;
+    public List<string> names;
+    public List<int> scores;
 
     // Start is called before the first frame update
     void Start()
@@ -58,6 +62,9 @@ public class ChickController : MonoBehaviour
         photonView = GameObject.Find("QuickStartRoomController").GetComponent<PhotonView>();
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
+        scoreToNameDics = new Dictionary<string, int>();
+        names = new List<string>(); 
+        scores = new List<int>();
 
     }
 
@@ -96,9 +103,9 @@ public class ChickController : MonoBehaviour
 
     }
 
-    public void AddPoints(int pointsToAdd) 
-    {
-        totalScore += pointsToAdd;
+    public void updateCurrentScore(int pointValue){
+        totalScore += pointValue;
+        photonView.RPC("UpDateLeaderBoard", PhotonNetwork.NickName, totalScore);
     }
 
     void ClaimChick()
@@ -162,6 +169,15 @@ public class ChickController : MonoBehaviour
         wetWalkSound = GameObject.Find("Wet Walk").GetComponent<AudioController>();
         bawkSound = GameObject.Find("Chicken Call").GetComponent<AudioController>();
 
+    }
+
+
+    //Here is how the leaderboard displayed in the game
+    private void displayCurLeaderBoard(){
+        for(int i = 0; i < names.Count; i ++){
+            int index = i + 1; 
+            leaderBoard.transform.GetChild(index).GetComponent<Text>().text = names[i];
+        }
     }
 
     void MoveChick()
@@ -324,6 +340,33 @@ public class ChickController : MonoBehaviour
         GameObject bawkObject = GameObject.Instantiate(bawkSound.gameObject);
         bawkObject.transform.position = position;
         bawkObject.GetComponent<AudioController>().PlaySound();
+    }
+
+    [PunRPC]
+    public void UpDateLeaderBoard(string chickName, int chickTotalScore){
+        if(scoreToNameDic.ContainsKey(chickName)){
+            scoreToNameDic[chickName] = chickTotalScore; 
+        }
+        else{
+            scoreToNameDic.Add(chickName, chickTotalScore);
+        }
+
+        foreach(KeyValuePair<string, int> entry in scoreToNameDic)
+        {
+            scores.Add(entry.Value);
+        }
+        //should have the highest value to be the first value
+        scores.Sort(); 
+
+        for(int i = 0; i < scores.Count; i++){
+            int curScore = scores[i];
+            foreach(KeyValuePair<string, int> entry in scoreToNameDic)
+            {
+                if(entry.Value == curScore){
+                    names.Add(entry.Key);
+                }
+            }
+        }
     }
 
 }

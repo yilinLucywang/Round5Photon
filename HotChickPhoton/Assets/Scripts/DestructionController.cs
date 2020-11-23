@@ -93,7 +93,7 @@ public class DestructionController : MonoBehaviour
             {
                 foreach (ChickController chickController in chicksBurning) 
                 {
-                    chickController.AddPoints(pointValue);
+                    chickController.updateCurrentScore(pointValue);
                 }
 
                 onFire = true;
