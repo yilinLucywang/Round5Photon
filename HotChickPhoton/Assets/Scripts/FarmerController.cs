@@ -42,6 +42,11 @@ public class FarmerController : MonoBehaviour
 
     int frameCounter = 0;
 
+    AudioController splashSound;
+    AudioController catchFireSound;
+    AudioController onFireSound;
+    AudioController wetWalkSound;
+    AudioController bawkSound;
 
     // Start is called before the first frame update
     void Start()
@@ -52,7 +57,6 @@ public class FarmerController : MonoBehaviour
 
         waterLeft = maxWater;
 
-        // TODO: Temporary until we get a water model.
         bucketWaterLocalPositions = new Vector3[maxWater + 1];
 
         bucketWaterLocalPositions[5] = new Vector3(0, 0.02f, 0);
@@ -89,6 +93,7 @@ public class FarmerController : MonoBehaviour
                 waterLeft--;
                 splashingWater = maxSplashingWater;
                 bucketWater.transform.localPosition = bucketWaterLocalPositions[waterLeft];
+                splashSound.PlaySound();
             }
         }
 
@@ -152,6 +157,12 @@ public class FarmerController : MonoBehaviour
         GameObject.Find("FarmerName").GetComponent<Text>().text = PhotonNetwork.NickName;
         bucketWater = GameObject.Find("BucketWater");
 
+
+        splashSound = GameObject.Find("SplashSound").GetComponent<AudioController>();
+        catchFireSound = GameObject.Find("Catch Fire Sound").GetComponent<AudioController>();
+        onFireSound = GameObject.Find("Chick Aflame Sound").GetComponent<AudioController>();
+        wetWalkSound = GameObject.Find("Wet Walk").GetComponent<AudioController>();
+        bawkSound = GameObject.Find("Chicken Call").GetComponent<AudioController>();
 
     }
 
@@ -232,6 +243,11 @@ public class FarmerController : MonoBehaviour
         GameObject localChick = allChicks.Where(chick => chick.name == remoteChick).ToArray()[0];
 
         localChick.transform.GetChild(0).GetChild(1).gameObject.SetActive(true);
+
+        GameObject catchFireObject = GameObject.Instantiate(catchFireSound.gameObject);
+        catchFireObject.transform.position = localChick.transform.position;
+        catchFireObject.GetComponent<AudioController>().PlaySound();
+
     }
 
     [PunRPC]
@@ -242,4 +258,12 @@ public class FarmerController : MonoBehaviour
         localChick.transform.GetChild(0).GetComponent<ChickAI>().enabled = false;
     }
 
+
+    [PunRPC]
+    public void BawkAt(Vector3 position)
+    {
+        GameObject bawkObject = GameObject.Instantiate(bawkSound.gameObject);
+        bawkObject.transform.position = position;
+        bawkObject.GetComponent<AudioController>().PlaySound();
+    }
 }

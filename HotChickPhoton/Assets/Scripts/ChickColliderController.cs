@@ -23,6 +23,8 @@ public class ChickColliderController : MonoBehaviour
     bool isWet = false;
     bool isPutOut = false;
 
+    public ChickController chickController;
+
 
     private void Start()
     {

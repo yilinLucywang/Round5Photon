@@ -44,6 +44,13 @@ public class ChickController : MonoBehaviour
     int frameCounter = 0;
     private bool isWet = false;
 
+    AudioController splashSound;
+    AudioController catchFireSound;
+    AudioController onFireSound;
+    AudioController wetWalkSound;
+    AudioController bawkSound;
+
+    public int totalScore = 0;
 
     // Start is called before the first frame update
     void Start()
@@ -51,6 +58,7 @@ public class ChickController : MonoBehaviour
         photonView = GameObject.Find("QuickStartRoomController").GetComponent<PhotonView>();
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
+
     }
 
     // Update is called once per frame
@@ -80,6 +88,17 @@ public class ChickController : MonoBehaviour
         }
 
 
+        if (Input.GetKeyDown(KeyCode.Space)) 
+        {
+            photonView.RPC("BawkAt", RpcTarget.All, myChickObject.transform.position);
+        }
+
+
+    }
+
+    public void AddPoints(int pointsToAdd) 
+    {
+        totalScore += pointsToAdd;
     }
 
     void ClaimChick()
@@ -113,6 +132,8 @@ public class ChickController : MonoBehaviour
             myCamera = myChickObject.transform.GetChild(0).GetComponent<Camera>();
             fireObject = myChickObject.transform.GetChild(1).gameObject;
 
+            myChickObject.GetComponent<ChickColliderController>().chickController = this;
+
             myChickObject.GetComponent<ChickAI>().enabled = false;
             photonView.RPC("StopChickAI", RpcTarget.Others, myChickParent.name);
 
@@ -133,6 +154,13 @@ public class ChickController : MonoBehaviour
 
             myChickObject.transform.GetChild(3).GetChild(0).gameObject.SetActive(false);
         }
+
+
+        splashSound = GameObject.Find("SplashSound").GetComponent<AudioController>();
+        catchFireSound = GameObject.Find("Catch Fire Sound").GetComponent<AudioController>();
+        onFireSound = GameObject.Find("Chick Aflame Sound").GetComponent<AudioController>();
+        wetWalkSound = GameObject.Find("Wet Walk").GetComponent<AudioController>();
+        bawkSound = GameObject.Find("Chicken Call").GetComponent<AudioController>();
 
     }
 
@@ -251,6 +279,11 @@ public class ChickController : MonoBehaviour
         {
             onFire = true;
         }
+
+        GameObject catchFireObject = GameObject.Instantiate(catchFireSound.gameObject);
+        catchFireObject.transform.position = localChick.transform.position;
+        catchFireObject.GetComponent<AudioController>().PlaySound();
+
     }
 
 
@@ -261,6 +294,8 @@ public class ChickController : MonoBehaviour
         waterParticleSystem.transform.parent.rotation = waterRotation;
 
         waterParticleSystem.Play();
+
+        splashSound.PlaySound();
 
         StartCoroutine(EnableWaterCollider());
     }
@@ -281,6 +316,14 @@ public class ChickController : MonoBehaviour
         GameObject localChick = allChicks.Where(chick => chick.name == remoteChick).ToArray()[0];
         localChick.transform.GetChild(0).GetChild(4).gameObject.SetActive(false);
         isWet = false;
+    }
+
+    [PunRPC]
+    public void BawkAt(Vector3 position) 
+    {
+        GameObject bawkObject = GameObject.Instantiate(bawkSound.gameObject);
+        bawkObject.transform.position = position;
+        bawkObject.GetComponent<AudioController>().PlaySound();
     }
 
 }

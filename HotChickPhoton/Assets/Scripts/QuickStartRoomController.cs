@@ -198,13 +198,6 @@ public class QuickStartRoomController : MonoBehaviourPunCallbacks, IInRoomCallba
 		enterButton.SetActive(false);
 	}
 
-	public void startLoadingScene(){
-		PV.RPC("loadBarnScene", RpcTarget.All);
-		//SceneManager.LoadScene("BarnScene");
-	}
-
-
-
 	void StartGame(){
 		isGameLoaded = true;
 		//setUserName();
@@ -235,19 +228,11 @@ public class QuickStartRoomController : MonoBehaviourPunCallbacks, IInRoomCallba
 		}
 
 		//This load the starting images for everyone
-		PV.RPC("loadStartingImages", RpcTarget.All);
-		// loadOpeningImages();
-		//SceneManager.LoadScene("BarnScene");
+		//PV.RPC("loadStartingImages", RpcTarget.All);
 
-		//PV.RPC("RPC_ClearScreen", RpcTarget.All);
-	}
 
-	void RestartTimer(){
-		lessThanMaxPlayers = startingTime; 
-		timeToStart = startingTime; 
-		atMaxPlayer = 6; 
-		readyToCount = false; 
-		readyToStart = false; 
+		SceneManager.LoadScene("BarnScene");
+
 	}
 
 	//No connection here
@@ -266,7 +251,7 @@ public class QuickStartRoomController : MonoBehaviourPunCallbacks, IInRoomCallba
 	void loadOpeningImages(){
 		Debug.Log("loading images");
 		List<Texture> textures = new List<Texture>();
-		textures.Add(Resources.Load<Texture>("later"));
+		textures.Add(Resources.Load<Texture>("OPENING-01"));
 		textures.Add(Resources.Load<Texture>("OPENING-02"));
 		textures.Add(Resources.Load<Texture>("OPENING-03"));
 		textures.Add(Resources.Load<Texture>("OPENING-04"));

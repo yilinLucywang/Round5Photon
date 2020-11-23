@@ -15,14 +15,15 @@ public class AudioController : MonoBehaviour
     void Awake()
     {
         AC = this;
-        bgm.loop = true;
+        //bgm.loop = true;
         sounds = new Dictionary<string, AudioClip[]>();
-        sounds.Add("bgm", new AudioClip[] { Resources.Load("Ranching_Polk_BGM", typeof(AudioClip)) as AudioClip });
+        sounds.Add("bgm", new AudioClip[] { Resources.Load(bgm.clip.name, typeof(AudioClip)) as AudioClip });
         bgm.clip = sounds["bgm"][0];
     }
 
-    void Start(){
-    	PlayBgm("bgm");
+    void Start()
+    {
+
     }
 
     // Update is called once per frame
@@ -32,15 +33,18 @@ public class AudioController : MonoBehaviour
     }
 
     
-    public void PlayBgm(string soundID=null, float vol = 0.5f){
-        bgm.Stop();
-        if (soundID != null)
-        {
-            AudioClip clip = sounds[soundID][Random.Range(0, sounds[soundID].Length)];
-            bgm.clip = clip;
-        }
+    public void PlaySound(float vol = 0.5f){
+        
+        AudioClip clip = sounds["bgm"][Random.Range(0, sounds["bgm"].Length)];
+        bgm.clip = clip;
+        
         bgm.volume = 0.5f;
         bgm.Play();
+    }
+
+    public void StopSound() 
+    {
+        bgm.Stop();
     }
 
     public void muteAll(){
