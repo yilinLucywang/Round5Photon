@@ -40,6 +40,7 @@ public class FarmerController : MonoBehaviour
 
     public float moveSpeed = 6.5f;
     public float rotationSpeed = 1.3f;
+    public bool isChick = false;
 
     int frameCounter = 0;
 
