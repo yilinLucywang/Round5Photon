@@ -266,4 +266,24 @@ public class FarmerController : MonoBehaviour
         bawkObject.transform.position = position;
         bawkObject.GetComponent<AudioController>().PlaySound();
     }
+
+    [PunRPC]
+    public void EndGame(bool propaneIsBurnt){
+        if(propaneIsBurnt){
+            if(isChick){
+                SceneManager.LoadScene("chickWin");
+            }
+            else{
+                SceneManager.LoadScene("FarmerLose");
+            }
+        }
+        else{
+            if(isChick){
+                SceneManager.LoadScene("chickLose");
+            }
+            else{
+                SceneManager.LoadScene("FarmerWin");
+            }
+        }
+    }
 }

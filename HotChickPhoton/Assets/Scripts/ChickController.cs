@@ -5,6 +5,8 @@ using UnityEngine;
 using Photon.Pun;
 using System.Linq;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
+
 
 public class ChickController : MonoBehaviour
 {
@@ -57,6 +59,10 @@ public class ChickController : MonoBehaviour
     public List<int> scores;
     public bool firstUpdate = false;
 
+
+    //for ending scene
+    public bool isChick = true; 
+
     // Start is called before the first frame update
     void Start()
     {
@@ -108,7 +114,7 @@ public class ChickController : MonoBehaviour
         if(Input.GetKeyUp(KeyCode.Tab)){
             hideLeaderBoard();
         }
-        
+
         //This is the first update of the leaderboard
         if(!firstUpdate){
             photonView.RPC("UpDateLeaderBoard", RpcTarget.All, PhotonNetwork.NickName, totalScore);
@@ -382,6 +388,26 @@ public class ChickController : MonoBehaviour
                 if(entry.Value == curScore){
                     names.Add(entry.Key);
                 }
+            }
+        }
+    }
+
+    [PunRPC]
+    public void EndGame(bool propaneIsBurnt){
+        if(propaneIsBurnt){
+            if(isChick){
+                SceneManager.LoadScene("chickWin");
+            }
+            else{
+                SceneManager.LoadScene("FarmerLose");
+            }
+        }
+        else{
+            if(isChick){
+                SceneManager.LoadScene("chickLose");
+            }
+            else{
+                SceneManager.LoadScene("FarmerWin");
             }
         }
     }
